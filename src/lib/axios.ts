@@ -20,7 +20,7 @@ apiAxios.interceptors.request.use(
         ) {
             request.headers['X-Session-Id'] = `Token ${token}`;
         }
-        request.headers['Accept-Language'] = 'fr';
+        // request.headers['Accept-Language'] = 'fr';
         return request;
     },
     (error) => Promise.reject(error)
