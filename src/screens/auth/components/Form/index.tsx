@@ -1,50 +1,51 @@
-import Container from "@components/containers";
-import Button from "@components/ui/buttons";
-import { FieldCheckbox, FieldText } from "@components/ui/fields/index";
-import { StackParamList } from "@custom-types/navigation";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { SPACING } from "@styles/variables";
-import { FC, useState } from "react";
-import styles from "./styles";
-import { useMutation } from "@tanstack/react-query";
-import { post } from "@lib/queries";
-import { FormErrorToast, useToast } from "@components/ui/toast";
-import { FormError } from "@lib/queries/error";
-import { useAuth } from "@hooks/useAuth";
-import { User } from "@custom-types/user";
+import Container from '@components/containers';
+import Button from '@components/ui/buttons';
+import { FieldCheckbox, FieldText } from '@components/ui/fields/index';
+import { FormErrorToast, useToast } from '@components/ui/toast';
+import { StackParamList } from '@custom-types/navigation';
+import { User } from '@custom-types/user';
+import useSession from '@hooks/useSession';
+import { post } from '@lib/queries';
+import { FormError } from '@lib/queries/error';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { SPACING } from '@styles/variables';
+import { useMutation } from '@tanstack/react-query';
+import { FC, useState } from 'react';
+import styles from './styles';
 
 interface SignInFormProps {
-  navigation: NativeStackNavigationProp<StackParamList, "SignIn", undefined>;
+  navigation: NativeStackNavigationProp<StackParamList, 'SignIn', undefined>;
 }
 export const SignInForm: FC<SignInFormProps> = ({ navigation }) => {
   const { toast } = useToast();
-  const { saveUser } = useAuth();
+  // const { saveUser } = useAuth();
+  const { refetch: saveUser } = useSession();
 
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
+  const [login, setLogin] = useState('Olivier');
+  const [password, setPassword] = useState('OIivier77@');
   const [rememberMe, setRememberMe] = useState(false);
 
   const mutation = useMutation({
-    mutationKey: ["signIn", login, password, rememberMe],
+    mutationKey: ['signIn', login, password, rememberMe],
     mutationFn: async () =>
-      post<User>("/auth/sign-in/", { login, password, rememberMe }),
-    onSuccess: (data) => {
-      saveUser(data);
+      post<User>('/auth/sign-in/', { login, password, rememberMe }),
+    onSuccess: () => {
+      saveUser();
       toast({
-        title: "Sign in successful",
-        description: "Welcome back!",
-        variant: "success",
+        title: 'Sign in successful',
+        description: 'Welcome back!',
+        variant: 'success',
       });
-      navigation.navigate("Home");
+      navigation.navigate('Home');
     },
     onError: (error) => {
       if (error instanceof FormError) {
         toast(FormErrorToast(error));
       } else {
         toast({
-          title: "Sign in failed",
+          title: 'Sign in failed',
           description: error.message,
-          variant: "destructive",
+          variant: 'destructive',
         });
       }
     },
@@ -66,7 +67,7 @@ export const SignInForm: FC<SignInFormProps> = ({ navigation }) => {
           label="Remember me"
         />
 
-        <Button onPress={() => navigation.navigate("ResetPassword")}>
+        <Button onPress={() => navigation.navigate('ResetPassword')}>
           Forgot Password
         </Button>
       </Container>

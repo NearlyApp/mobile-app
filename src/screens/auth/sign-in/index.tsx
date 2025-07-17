@@ -4,7 +4,6 @@ import Button from "@components/ui/buttons";
 import React, { useMemo } from "react";
 import Banner from "../components/Banner";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
-import useAuth from "@hooks/useAuth";
 import { SignInForm } from "../components/Form";
 import styles from "./styles";
 import { COLORS, SPACING, TEXT_STYLES } from "@styles/variables";

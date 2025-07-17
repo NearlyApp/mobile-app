@@ -1,13 +1,15 @@
-import React, { FC } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import React, { FC } from 'react';
 // import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "@screens/home";
+import HomeScreen from '@screens/home';
 
-import { COLORS, SPACING } from "@styles/variables";
-import { HomeIcon, UserIcon } from "lucide-react-native";
-import { RootStackParamList } from "@custom-types/navigation";
-import AuthStack from "@/navigation/AuthStack";
+import AuthStack from '@/navigation/AuthStack';
+import { RootStackParamList } from '@custom-types/navigation';
+import { useOnAppForeground } from '@hooks/useOnAppForeground';
+import useSession from '@hooks/useSession';
+import { COLORS, SPACING } from '@styles/variables';
+import { HomeIcon, UserIcon } from 'lucide-react-native';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 // const Stack = createNativeStackNavigator();
@@ -16,7 +18,7 @@ const TabNavigator: FC = () => (
   <Tab.Navigator
     screenOptions={{
       headerShown: false,
-      headerTitle: "",
+      headerTitle: '',
       tabBarActiveTintColor: COLORS.primary,
       tabBarInactiveTintColor: COLORS.gray500,
       tabBarStyle: {
@@ -42,6 +44,12 @@ const TabNavigator: FC = () => (
 );
 
 const AppShell: FC = () => {
+  const { refetch } = useSession();
+
+  useOnAppForeground(() => {
+    refetch();
+  });
+
   return (
     <NavigationContainer>
       <TabNavigator />
