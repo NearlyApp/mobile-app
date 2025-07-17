@@ -7,9 +7,9 @@ import HomeScreen from '@screens/home';
 import AuthStack from '@/navigation/AuthStack';
 import { RootStackParamList } from '@custom-types/navigation';
 import { useOnAppForeground } from '@hooks/useOnAppForeground';
-import useSession from '@hooks/useSession';
 import { COLORS, SPACING } from '@styles/variables';
 import { HomeIcon, UserIcon } from 'lucide-react-native';
+import useSession from '@hooks/auth/useSession';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 // const Stack = createNativeStackNavigator();

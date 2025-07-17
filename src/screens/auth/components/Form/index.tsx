@@ -3,8 +3,7 @@ import Button from '@components/ui/buttons';
 import { FieldCheckbox, FieldText } from '@components/ui/fields/index';
 import { FormErrorToast, useToast } from '@components/ui/toast';
 import { StackParamList } from '@custom-types/navigation';
-import { User } from '@custom-types/user';
-import useSession from '@hooks/useSession';
+import useSession from '@hooks/auth/useSession';
 import { post } from '@lib/queries';
 import { FormError } from '@lib/queries/error';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -12,6 +11,7 @@ import { SPACING } from '@styles/variables';
 import { useMutation } from '@tanstack/react-query';
 import { FC, useState } from 'react';
 import styles from './styles';
+import { User } from '@nearlyapp/common';
 
 interface SignInFormProps {
   navigation: NativeStackNavigationProp<StackParamList, 'SignIn', undefined>;

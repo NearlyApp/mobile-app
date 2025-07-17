@@ -1,6 +1,6 @@
 import { ScreenContainer } from '@components/containers';
 import { DisplayText } from '@components/typography';
-import useSession from '@hooks/useSession';
+import useSession from '@hooks/auth/useSession';
 import React, { useEffect } from 'react';
 
 const HomeScreen: NavScreen<'Home'> = () => {

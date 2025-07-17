@@ -1,12 +1,17 @@
-import { ScreenContainer } from "@components/containers";
-import { DisplayText } from "@components/typography";
-import React from "react";
+import { ScrollContainer } from '@components/containers';
+import { DisplayText } from '@components/typography';
+import useUsers from '@hooks/users/useUsers';
+import React from 'react';
+import { Text } from 'react-native';
 
-const ResetPasswordScreen: NavScreen<"ResetPassword"> = () => {
+const ResetPasswordScreen: NavScreen<'ResetPassword'> = () => {
+  const { data } = useUsers();
+
   return (
-    <ScreenContainer>
+    <ScrollContainer>
       <DisplayText>Reset password</DisplayText>
-    </ScreenContainer>
+      <Text>{!!data && JSON.stringify(data, null, 2)}</Text>
+    </ScrollContainer>
   );
 };
 
