@@ -1,4 +1,4 @@
-import AppShell from "AppShell";
+import AppShell from "@/AppShell";
 import ReactQueryProvider from "@components/ReactQueryProvider";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Toast from "@components/ui/toast";
