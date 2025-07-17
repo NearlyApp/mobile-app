@@ -18,7 +18,11 @@ export class DetailError extends Error {
     }
 }
 
-export class ForbiddenError extends DetailError { }
+export class ForbiddenError extends DetailError {
+    constructor(detail: string = "Access forbidden") {
+        super(detail);
+    }
+}
 
 export class FormError extends Error {
     allMessages: string[];
@@ -35,7 +39,7 @@ export class FormError extends Error {
         }
 
         if (!this.allMessages?.length) {
-            this.allMessages = ["Une erreur inconnue au bataillon est survenue."];
+            this.allMessages = ["Je connais pas cette erreur"];
         }
     }
 }

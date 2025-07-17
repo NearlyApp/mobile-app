@@ -61,7 +61,13 @@ export const ScreenContainer: React.FC<ContainerProps> = ({
     <Container
       {...props}
       includeSafeArea={includeSafeArea}
-      style={[props.style, { paddingTop: VARIABLES.SPACING.xxxLarge }]}
+      style={[
+        props.style,
+        {
+          paddingTop: VARIABLES.SPACING.xxxLarge,
+          height: "100%",
+        },
+      ]}
     >
       {children}
     </Container>

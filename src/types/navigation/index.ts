@@ -7,6 +7,7 @@ export type RootStackParamList = {
 export type AuthStackParamList = {
     SignIn: undefined;
     SignUp: undefined;
+    ResetPassword: undefined;
 }
 
 export type StackParamList = RootStackParamList & AuthStackParamList;

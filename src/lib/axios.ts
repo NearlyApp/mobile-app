@@ -18,7 +18,7 @@ apiAxios.interceptors.request.use(
             && !request.url?.includes("auth/sign-up")
             && !request.url?.includes("auth/sign-in")
         ) {
-            request.headers['Authorization'] = `Token ${token}`;
+            request.headers['X-Session-Id'] = `Token ${token}`;
         }
         request.headers['Accept-Language'] = 'fr';
         return request;
@@ -38,6 +38,9 @@ apiAxios.interceptors.response.use(
         }
         if (!!error.response) {
             if (error.response.status === 403) {
+                throw new ForbiddenError(error);
+            }
+            if (error.response.status === 401) {
                 throw new ForbiddenError(error);
             }
             if (error.response.status === 400) {

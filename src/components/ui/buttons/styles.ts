@@ -5,11 +5,9 @@ import { ButtonVariant } from '@custom-types/variants';
 
 export default StyleSheet.create({
     baseButton: {
-        paddingVertical: VARIABLES.SPACING.medium,
-        paddingHorizontal: VARIABLES.SPACING.medium,
-        borderRadius: VARIABLES.RADIUS.xLarge,
+        borderRadius: VARIABLES.RADIUS.small,
         alignItems: 'center',
-        // justifyContent: 'center',
+        justifyContent: 'center',
     }
 });
 
