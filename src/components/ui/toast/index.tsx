@@ -1,5 +1,5 @@
 import Container from "@components/containers";
-import { DisplayText, LabelText, TitleText } from "@components/typography";
+import { DisplayText, LabelText, TitleText } from "@components/ui/typography";
 import { ToastVariant } from "@custom-types/variants";
 import {
   createContext,

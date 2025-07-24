@@ -1,60 +1,64 @@
 import Container from '@components/containers';
 import Button from '@components/ui/buttons';
-import { FieldCheckbox, FieldText } from '@components/ui/fields/index';
-import { FormErrorToast, useToast } from '@components/ui/toast';
+import { FieldCheckbox, TextField } from '@components/ui/fields/index';
+import { useToast } from '@components/ui/toast';
 import { StackParamList } from '@custom-types/navigation';
-import useSession from '@hooks/auth/useSession';
-import { post } from '@lib/queries';
-import { FormError } from '@lib/queries/error';
+import useSignIn from '@hooks/auth/useSignIn';
+import useCurrentUser from '@hooks/users/useCurrentUser';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SPACING } from '@styles/variables';
-import { useMutation } from '@tanstack/react-query';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './styles';
-import { User } from '@nearlyapp/common';
 
 interface SignInFormProps {
   navigation: NativeStackNavigationProp<StackParamList, 'SignIn', undefined>;
 }
 export const SignInForm: FC<SignInFormProps> = ({ navigation }) => {
   const { toast } = useToast();
-  // const { saveUser } = useAuth();
-  const { refetch: saveUser } = useSession();
+  const signIn = useSignIn();
+  const { data: user } = useCurrentUser();
 
-  const [login, setLogin] = useState('Olivier');
-  const [password, setPassword] = useState('OIivier77@');
+  useEffect(() => {
+    if (user) {
+      navigation.navigate('Home');
+    }
+  }, []);
+
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
-  const mutation = useMutation({
-    mutationKey: ['signIn', login, password, rememberMe],
-    mutationFn: async () =>
-      post<User>('/auth/sign-in/', { login, password, rememberMe }),
-    onSuccess: () => {
-      saveUser();
-      toast({
-        title: 'Sign in successful',
-        description: 'Welcome back!',
-        variant: 'success',
-      });
-      navigation.navigate('Home');
-    },
-    onError: (error) => {
-      if (error instanceof FormError) {
-        toast(FormErrorToast(error));
-      } else {
-        toast({
-          title: 'Sign in failed',
-          description: error.message,
-          variant: 'destructive',
-        });
-      }
-    },
-  });
+  function handleSignIn() {
+    signIn.mutate(
+      {
+        login,
+        password,
+        rememberMe,
+      },
+      {
+        onSuccess: () => {
+          toast({
+            title: 'Sign in successful',
+            description: 'Welcome back!',
+            variant: 'success',
+          });
+          navigation.navigate('Home');
+        },
+        onError: (error) => {
+          toast({
+            title: 'Sign in failed',
+            description: error.data.statusCode,
+            variant: 'destructive',
+          });
+        },
+      },
+    );
+  }
 
   return (
     <Container>
-      <FieldText placeholder="Login" value={login} onChangeText={setLogin} />
-      <FieldText
+      <TextField placeholder="Login" value={login} onChangeText={setLogin} />
+      <TextField
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
@@ -74,8 +78,8 @@ export const SignInForm: FC<SignInFormProps> = ({ navigation }) => {
       <Button
         style={{ marginTop: SPACING.medium }}
         variant="primary"
-        disabled={!login || !password || mutation.isPending}
-        onPress={mutation.mutate}
+        disabled={!login || !password || signIn.isPending}
+        onPress={handleSignIn}
       >
         Sign In
       </Button>

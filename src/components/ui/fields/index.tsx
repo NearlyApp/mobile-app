@@ -1,27 +1,34 @@
+import { LabelText } from '@components/ui/typography';
+import { COLORS } from '@styles/variables';
+import { Check } from 'lucide-react-native';
+import React, { FC } from 'react';
 import {
   TextInput,
   TextInputProps,
-  View,
   TouchableOpacity,
-} from "react-native";
-import { Check } from "lucide-react-native";
-import styles from "./styles";
-import { COLORS } from "@styles/variables";
-import React, { FC } from "react";
-import { LabelText } from "@components/typography";
+  View,
+} from 'react-native';
+import styles from './styles';
 
-interface FieldTextProps extends TextInputProps {
+interface TextField extends TextInputProps {
+  errored?: boolean;
   isGhost?: boolean;
 }
 
-export const FieldText: FC<FieldTextProps> = ({ isGhost, style, ...props }) => {
+export const TextField: FC<TextField> = ({
+  isGhost,
+  style,
+  errored,
+  ...props
+}) => {
   return (
     <TextInput
       {...props}
       placeholderTextColor={COLORS.gray700}
       style={[
-        styles.text,
-        isGhost && { backgroundColor: "transparent" },
+        styles.textFieldErrored,
+        !!errored && styles.textFieldErrored,
+        isGhost && { backgroundColor: 'transparent' },
         style,
       ]}
     />
@@ -44,7 +51,7 @@ export const FieldCheckbox: FC<FieldCheckboxProps> = ({
       <View style={[styles.checkbox, value && styles.checked]}>
         {value && <Check size={16} color={COLORS.gray100} />}
       </View>
-      {!!label && typeof label === "string" ? (
+      {!!label && typeof label === 'string' ? (
         <LabelText>{label}</LabelText>
       ) : (
         label

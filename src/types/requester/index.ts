@@ -1,23 +1,26 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 
 export type Requester = () => {
   get: Request;
-  post: Request;
-  put: Request;
+  post: RequestWithData;
+  put: RequestWithData;
   delete: Request;
-  patch: Request;
+  patch: RequestWithData;
 };
 
-export type Request = <T = any, D = ErrorData>(
+export type Request = <T extends any = any>(
+  url: string,
+  options?: AxiosRequestConfig,
+) => Promise<T>;
+export type RequestWithData = <T extends any = any>(
   url: string,
   data?: any,
   options?: AxiosRequestConfig,
-) => Promise<AxiosResponse<T, D>>;
-
-export type Response<T = any, D = ErrorData> = AxiosResponse<T, D>;
+) => Promise<T>;
 
 export type ErrorData = {
   statusCode: number;
-  message: string | string[];
+  message: string;
   error: string;
+  errors?: Record<string, string[]>;
 };

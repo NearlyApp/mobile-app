@@ -1,20 +1,17 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import React, { FC } from 'react';
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from '@screens/home';
 
 import AuthStack from '@/navigation/AuthStack';
 import { RootStackParamList } from '@custom-types/navigation';
 import { useOnAppForeground } from '@hooks/useOnAppForeground';
+import useCurrentUser from '@hooks/users/useCurrentUser';
 import { COLORS, SPACING } from '@styles/variables';
 import { HomeIcon, UserIcon } from 'lucide-react-native';
-import useSession from '@hooks/auth/useSession';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
-// const Stack = createNativeStackNavigator();
 
-const TabNavigator: FC = () => (
+const TabNavigator: React.FC = () => (
   <Tab.Navigator
     screenOptions={{
       headerShown: false,
@@ -43,8 +40,8 @@ const TabNavigator: FC = () => (
   </Tab.Navigator>
 );
 
-const AppShell: FC = () => {
-  const { refetch } = useSession();
+const AppShell: React.FC = () => {
+  const { refetch } = useCurrentUser();
 
   useOnAppForeground(() => {
     refetch();

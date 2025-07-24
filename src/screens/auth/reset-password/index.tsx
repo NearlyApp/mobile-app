@@ -1,5 +1,5 @@
 import { ScrollContainer } from '@components/containers';
-import { DisplayText } from '@components/typography';
+import { DisplayText } from '@components/ui/typography';
 import useUsers from '@hooks/users/useUsers';
 import React from 'react';
 import { Text } from 'react-native';

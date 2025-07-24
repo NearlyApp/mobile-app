@@ -1,17 +1,17 @@
-import { SPACING } from "@styles/variables";
-import { StyleSheet } from "react-native";
+import { COLORS, RADIUS } from '@styles/variables';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    containerMsg: {
-        position: "absolute",
-        bottom: 0,
-        left: "50%",
-        transform: [{ translateX: "-50%" }],
-        width: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-        marginLeft: SPACING.large,
-    },
+  container: {
+    display: 'flex',
+    padding: 0,
+    backgroundColor: COLORS.primary,
+  },
+  content: {
+    flex: 1,
+    backgroundColor: COLORS.gray50,
+    borderTopStartRadius: RADIUS.xLarge,
+  },
 });
 
 export default styles;

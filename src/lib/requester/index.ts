@@ -1,63 +1,71 @@
 import { API_BASE_URL } from '@constants/index';
-import { Request, Requester } from '@custom-types/requester';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ErrorData, Request, Requester } from '@custom-types/requester';
+import RequesterError from '@lib/requester/RequesterError';
 import axios, {
   AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
-  InternalAxiosRequestConfig,
 } from 'axios';
 
 const client: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
   timeout: 5000,
 });
-
-client.interceptors.request.use(async (request: InternalAxiosRequestConfig) => {
-  const sessionId = await AsyncStorage.getItem('SESSION_ID');
-
-  if (sessionId) request.headers['X-Session-Id'] = sessionId;
-
-  return request;
-}, console.error);
 
 client.interceptors.response.use(
   async (response: AxiosResponse) => response,
   (error: AxiosError) => {
     switch (error.response?.status) {
       case 401:
+        // Add some logic for unauthorized access if needed
         break;
-      default:
-        throw error;
     }
+
+    throw new RequesterError({
+      error:
+        (error.response?.data as ErrorData)?.error ??
+        error.response?.statusText ??
+        'Unknown error',
+      message:
+        (error.response?.data as ErrorData)?.message ??
+        error.response?.statusText ??
+        'An error occurred',
+      statusCode:
+        (error.response?.data as ErrorData)?.statusCode ??
+        error.response?.status ??
+        NaN,
+    });
   },
 );
 
 const requester: Requester = () => {
   const get: Request = async <T>(url: string, options?: AxiosRequestConfig) =>
-    client.get<T>(url, options);
+    (await client.get<T>(url, options)).data;
 
   const post: Request = async <T>(
     url: string,
-    data?: any,
+    data: any,
     options?: AxiosRequestConfig,
-  ) => client.post<T>(url, data, options);
+  ) => (await client.post<T>(url, data, options)).data;
 
   const put: Request = async <T>(
     url: string,
-    data?: any,
+    data: any,
     options?: AxiosRequestConfig,
-  ) => client.put<T>(url, data, options);
+  ) => (await client.put<T>(url, data, options)).data;
 
   const del: Request = async <T>(url: string, options?: AxiosRequestConfig) =>
-    client.delete<T>(url, options);
+    (await client.delete<T>(url, options)).data;
 
   const patch: Request = async <T>(
     url: string,
-    data?: any,
+    data: any,
     options?: AxiosRequestConfig,
-  ) => client.patch<T>(url, data, options);
+  ) => (await client.patch<T>(url, data, options)).data;
 
   return { get, post, put, delete: del, patch };
 };

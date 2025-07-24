@@ -52,6 +52,9 @@ const Container: React.FC<ContainerProps> = ({
   );
 };
 
+/**
+ * @deprecated
+ */
 export const ScreenContainer: React.FC<ContainerProps> = ({
   children,
   includeSafeArea = true,

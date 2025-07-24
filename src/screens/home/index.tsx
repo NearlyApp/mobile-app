@@ -1,22 +1,24 @@
-import { ScreenContainer } from '@components/containers';
-import { DisplayText } from '@components/typography';
-import useSession from '@hooks/auth/useSession';
-import React, { useEffect } from 'react';
+import Container from '@components/containers';
+import { DisplayText } from '@components/ui/typography';
+import useSignOut from '@hooks/auth/useSignOut';
+import useCurrentUser from '@hooks/users/useCurrentUser';
+import React from 'react';
+import { Button } from 'react-native';
 
 const HomeScreen: NavScreen<'Home'> = () => {
-  const { data: user } = useSession();
-  console.log('User data:', user);
+  const { data: user } = useCurrentUser();
+  const signOut = useSignOut();
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  function handleSignOut() {
+    signOut.mutate();
+  }
 
   return (
-    <ScreenContainer>
+    <Container>
       <DisplayText>Welcome to Nearly !</DisplayText>
       {user && <DisplayText>Hello, {user.username}!</DisplayText>}
-      {/* <Button onPress={clearUser}>Logout</Button> */}
-    </ScreenContainer>
+      {user && <Button onPress={handleSignOut} title="Sign Out" />}
+    </Container>
   );
 };
 
