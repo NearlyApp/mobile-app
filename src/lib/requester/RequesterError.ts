@@ -1,4 +1,4 @@
-import { ErrorData } from '@custom-types/requester';
+import { ErrorData } from '@/types/requester';
 
 export default class RequesterError<
   E extends ErrorData = ErrorData,

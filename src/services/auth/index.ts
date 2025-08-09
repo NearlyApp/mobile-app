@@ -1,9 +1,4 @@
-import {
-  SignInDto,
-  SignInResponse,
-  SignUpDto,
-  SignUpResponse,
-} from '@custom-types/auth';
+import { SignInDto, SignInResponse, SignUpDto, SignUpResponse } from '@/types/auth';
 import requester from '@lib/requester';
 
 const BASE_URL = '/auth';

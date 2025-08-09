@@ -1,11 +1,12 @@
+import { ErrorData, Request, Requester } from '@/types/requester';
 import { API_BASE_URL } from '@constants/index';
-import { ErrorData, Request, Requester } from '@custom-types/requester';
 import RequesterError from '@lib/requester/RequesterError';
 import axios, {
   AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
+  InternalAxiosRequestConfig,
 } from 'axios';
 
 const client: AxiosInstance = axios.create({
@@ -14,6 +15,14 @@ const client: AxiosInstance = axios.create({
     'Content-Type': 'application/json',
   },
   timeout: 5000,
+});
+
+client.interceptors.request.use((request: InternalAxiosRequestConfig) => {
+  console.debug(
+    `Request made with ${request.method?.toUpperCase()} method to ${request.url}`,
+  );
+
+  return request;
 });
 
 client.interceptors.response.use(

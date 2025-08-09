@@ -1,4 +1,4 @@
-import { FetchUsersResponse } from '@custom-types/users';
+import { FetchUsersResponse } from '@/types/users';
 import RequesterError from '@lib/requester/RequesterError';
 import { fetchUsers } from '@services/users';
 import { useQuery } from '@tanstack/react-query';

@@ -1,4 +1,4 @@
-import { SignUpDto, SignUpResponse } from '@custom-types/auth';
+import { SignUpDto, SignUpResponse } from '@/types/auth';
 import { CURRENT_USER_QUERY_KEY } from '@hooks/users/useCurrentUser';
 import getQueryClient from '@lib/getQueryClient';
 import RequesterError from '@lib/requester/RequesterError';

@@ -1,0 +1,23 @@
+{
+  "auth": {
+    "signUp": {
+      "error": {
+        "username": {
+          "minLength": "Username must be at least {{min}} characters long.",
+          "maxLength": "Username must be at most {{max}} characters long.",
+          "regex": "Username can only contain letters (a-z, A-Z), digits (0-9), and special characters (._-')."
+        },
+        "email": "Please enter a valid email address.",
+        "password": {
+          "minLength": "Password must be at least {{min}} characters long.",
+          "uppercase": "Password must contain at least one uppercase letter.",
+          "lowercase": "Password must contain at least one lowercase letter.",
+          "digit": "Password must contain at least one digit.",
+          "specialChar": "Password must contain at least one special character (e.g., !@#$%^&*).",
+          "match": "Passwords do not match."
+        }
+      }
+    },
+    "signIn": {}
+  }
+}
