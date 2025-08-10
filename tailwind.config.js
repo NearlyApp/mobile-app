@@ -43,6 +43,27 @@ module.exports = {
           foreground: 'hsl(var(--card-foreground))',
         },
       },
+      fontSize: {
+        'display-lg': ['var(--text-display-lg)'],
+        'display-md': ['var(--text-display-md)'],
+        'display-sm': ['var(--text-display-sm)'],
+
+        'headline-lg': ['var(--text-headline-lg)'],
+        'headline-md': ['var(--text-headline-md)'],
+        'headline-sm': ['var(--text-headline-sm)'],
+
+        'title-lg': ['var(--text-title-lg)'],
+        'title-md': ['var(--text-title-md)'],
+        'title-sm': ['var(--text-title-sm)'],
+
+        'body-lg': ['var(--text-body-lg)'],
+        'body-md': ['var(--text-body-md)'],
+        'body-sm': ['var(--text-body-sm)'],
+
+        'label-lg': ['var(--text-label-lg)'],
+        'label-md': ['var(--text-label-md)'],
+        'label-sm': ['var(--text-label-sm)'],
+      },
       borderWidth: {
         hairline: hairlineWidth(),
       },

@@ -23,6 +23,26 @@
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
+
+    --text-display-lg: 4rem;
+    --text-display-md: 3.5rem;
+    --text-display-sm: 3rem;
+
+    --text-headline-lg: 2.5rem;
+    --text-headline-md: 2.25rem;
+    --text-headline-sm: 2rem;
+
+    --text-title-lg: 1.75rem;
+    --text-title-md: 1.5rem;
+    --text-title-sm: 1.25rem;
+
+    --text-body-lg: 1.125rem;
+    --text-body-md: 1rem;
+    --text-body-sm: 0.875rem;
+
+    --text-label-lg: 1rem;
+    --text-label-md: 0.875rem;
+    --text-label-sm: 0.75rem;
   }
 
   .dark:root {
