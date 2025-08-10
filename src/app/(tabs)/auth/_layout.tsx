@@ -5,7 +5,7 @@ import { Stack } from 'expo-router';
 const AuthLayout: React.FC = () => (
   <GuestGuard>
     <Stack
-      initialRouteName={ROUTES.auth.signUp()}
+      initialRouteName={ROUTES.auth.signUp().split('/').at(-1)}
       screenOptions={{ headerShown: false }}
     />
   </GuestGuard>
