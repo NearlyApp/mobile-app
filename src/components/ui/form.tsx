@@ -1,99 +1,132 @@
-import { Input } from '@components/ui/input';
 import { Text } from '@components/ui/text';
+import {
+  FormContext,
+  FormFieldContext,
+  useFormContext,
+  useFormMessage,
+} from '@hooks/form';
 import { cn } from '@lib/utils';
 import { ClassValue } from 'clsx';
-import { useMemo } from 'react';
 import {
-  Control,
   Controller,
-  FieldError,
+  ControllerProps,
   FieldValues,
-  FormState,
   Path,
+  UseFormReturn,
 } from 'react-hook-form';
-import { TextInputProps, View } from 'react-native';
+import { TextInputProps, View, ViewProps } from 'react-native';
 
-type FormLabelProps = TextInputProps & {
+interface IFormProps<T extends FieldValues>
+  extends React.PropsWithChildren,
+    UseFormReturn<T> {
   className?: ClassValue;
-};
+}
 
-export const FormLabel: React.FC<FormLabelProps> = ({ className, ...props }) =>
-  props.children ? (
-    <Text
-      className={cn('text-sm text-muted-foreground', className)}
-      accessibilityRole="text"
-      {...props}
-    />
-  ) : null;
+export function Form<T extends FieldValues>({
+  className,
+  ...props
+}: IFormProps<T>) {
+  return (
+    <FormContext.Provider value={props as UseFormReturn<FieldValues>}>
+      <View
+        className={cn('flex flex-col items-stretch gap-4', className)}
+        {...props}
+      />
+    </FormContext.Provider>
+  );
+}
 
-type FormMessageProps = TextInputProps & {
-  className?: ClassValue;
-};
+interface IFormItemProps extends ViewProps {}
 
-export const FormMessage: React.FC<FormMessageProps> = ({
+export const FormItem: React.FC<IFormItemProps> = ({ className, ...props }) => (
+  <View className={cn('flex flex-col gap-2', className)} {...props} />
+);
+
+interface IFormLabelProps extends TextInputProps {}
+
+export const FormLabel: React.FC<IFormLabelProps> = ({
   className,
   ...props
 }) =>
   props.children ? (
     <Text
-      className={cn('text-sm text-red-500', className)}
-      accessibilityRole="alert"
+      size="labelSm"
+      className={cn('text-muted-foreground', className)}
+      accessibilityRole="text"
       {...props}
     />
   ) : null;
 
-type FormFieldProps<TFieldValues extends FieldValues> = {
-  control: Control<TFieldValues>;
-  formState: FormState<TFieldValues>;
+interface IFormMessageProps extends TextInputProps {}
+
+export const FormMessage: React.FC<IFormMessageProps> = ({
+  className,
+  children,
+  ...props
+}) => {
+  const { message } = useFormMessage({
+    value: children,
+  });
+
+  return message ? (
+    <Text
+      size="labelSm"
+      className={cn('text-red-500', className)}
+      accessibilityRole="alert"
+      {...props}
+    >
+      {message}
+    </Text>
+  ) : null;
+};
+
+type RenderParameters<TFieldValues extends FieldValues> = Parameters<
+  ControllerProps<TFieldValues>['render']
+>[0];
+
+interface IFormFieldProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
-  label?: string;
-  error?: FieldError | string | undefined;
-} & Omit<TextInputProps, 'onChangeText' | 'value' | 'onBlur'>;
+  control?: UseFormReturn<TFieldValues>['control'];
+  render: (params: {
+    field: Omit<RenderParameters<TFieldValues>['field'], 'onChange'> & {
+      onChangeText: (value: string) => void;
+    };
+    fieldState: RenderParameters<TFieldValues>['fieldState'];
+    formState: RenderParameters<TFieldValues>['formState'];
+  }) => React.ReactElement;
+}
 
 export function FormField<TFieldValues extends FieldValues>({
   control,
-  formState,
   name,
-  label,
-  error,
-  accessibilityLabel,
-  ...props
-}: FormFieldProps<TFieldValues>) {
-  const errorMessage = useMemo(() => {
-    if (typeof error === 'string') return error;
-    if (error && typeof error === 'object' && 'message' in error) {
-      return typeof error.message === 'string' ? error.message : undefined;
-    }
+  render,
+}: IFormFieldProps<TFieldValues>) {
+  const { control: ctxControl } = useFormContext();
 
-    const fieldError = formState.errors[name];
-    if (fieldError?.message) {
-      return typeof fieldError.message === 'string'
-        ? fieldError.message
-        : String(fieldError.message);
-    }
+  let _control = control || ctxControl;
 
-    return undefined;
-  }, [error, formState.errors, name]);
+  if (!_control)
+    throw new Error(
+      'FormField must be used within a Form component or with a control prop',
+    );
 
   return (
-    <View className="flex flex-col gap-2">
-      <FormLabel>{label}</FormLabel>
+    <FormFieldContext.Provider value={{ path: name }}>
       <Controller
         control={control}
         name={name}
-        render={({ field: { onChange, onBlur, value, disabled } }) => (
-          <Input
-            value={value}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            errored={!!error || !!control._formState.errors[name]}
-            disabled={disabled}
-            accessibilityLabel={accessibilityLabel || label}
-            {...props}
-          />
-        )}
+        render={({ field, fieldState, formState }) => {
+          const { onChange, ...restField } = field;
+          return render({
+            field: {
+              ...restField,
+              onChangeText: (value: string) => onChange({ target: { value } }),
+            },
+            fieldState,
+            formState,
+          });
+        }}
       />
-      <FormMessage>{errorMessage}</FormMessage>
-    </View>
+    </FormFieldContext.Provider>
   );
 }
