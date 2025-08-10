@@ -46,7 +46,7 @@ client.interceptors.response.use(
       statusCode:
         (error.response?.data as ErrorData)?.statusCode ??
         error.response?.status ??
-        NaN,
+        500,
     });
   },
 );
