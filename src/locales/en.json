@@ -1,6 +1,26 @@
 {
   "auth": {
     "signUp": {
+      "title": "Sign Up to Nearly",
+      "submit": "Sign Up",
+      "alreadyHaveAccount": {
+        "text": "Already have an account?",
+        "link": "Sign In"
+      },
+      "field": {
+        "username": {
+          "label": "Username"
+        },
+        "email": {
+          "label": "Email"
+        },
+        "password": {
+          "label": "Password"
+        },
+        "confirmPassword": {
+          "label": "Confirm Password"
+        }
+      },
       "error": {
         "username": {
           "minLength": "Username must be at least {{min}} characters long.",
