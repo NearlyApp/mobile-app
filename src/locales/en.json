@@ -38,6 +38,24 @@
         }
       }
     },
-    "signIn": {}
+    "signIn": {
+      "title": "Sign In to Nearly",
+      "submit": "Sign In",
+      "field": {
+        "login": {
+          "label": "Username or Email"
+        },
+        "password": {
+          "label": "Password"
+        },
+        "rememberMe": {
+          "label": "Remember Me"
+        }
+      },
+      "error": {
+        "loginRequired": "Login is required.",
+        "passwordRequired": "Password is required."
+      }
+    }
   }
 }

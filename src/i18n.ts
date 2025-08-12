@@ -1,36 +1,48 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Localization from 'expo-localization';
 import i18n, { LanguageDetectorAsyncModule } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 import en from '@locales/en.json';
 
-const resources = {
+export const resources = {
   en: { translation: en },
 };
 
-const DEFAULT = 'en';
+const DEFAULT_LOCALE = 'en';
 
-const languageDetector: LanguageDetectorAsyncModule = {
+export const getDefaultLanguage = (): string => {
+  const deviceLocale: Nullable<string> =
+    Localization.getLocales()[0]?.languageCode;
+
+  if (deviceLocale && deviceLocale in resources) {
+    return deviceLocale;
+  }
+  return DEFAULT_LOCALE;
+};
+
+export const currentLanguage = i18n.language || getDefaultLanguage();
+
+const useLanguageStorage: LanguageDetectorAsyncModule = {
   type: 'languageDetector',
   async: true,
-  detect: (callback: (lng: string) => void) => {
-    const locales = Localization.getLocales();
-    if (locales && locales.length > 0) {
-      callback(locales[0].languageTag);
-    } else {
-      callback(DEFAULT);
-    }
+  detect: async () => {
+    const language =
+      (await AsyncStorage.getItem('language')) || getDefaultLanguage();
+    return language;
   },
-  init: () => {},
-  cacheUserLanguage: () => {},
+  init: () => null,
+  cacheUserLanguage: async (language: string) => {
+    await AsyncStorage.setItem('language', language.split('-')[0]);
+  },
 };
 
 i18n
-  .use(languageDetector)
+  .use(useLanguageStorage)
   .use(initReactI18next)
   .init({
+    fallbackLng: getDefaultLanguage(),
     resources,
-    fallbackLng: DEFAULT,
     compatibilityJSON: 'v4',
     interpolation: {
       escapeValue: false,
