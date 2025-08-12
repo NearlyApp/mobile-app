@@ -43,6 +43,46 @@
     --text-label-lg: 1rem;
     --text-label-md: 0.875rem;
     --text-label-sm: 0.75rem;
+
+    --leading-display-lg: 4.75rem;
+    --leading-display-md: 4.25rem;
+    --leading-display-sm: 3.75rem;
+
+    --leading-headline-lg: 3rem;
+    --leading-headline-md: 2.75rem;
+    --leading-headline-sm: 2.5rem;
+
+    --leading-title-lg: 2.25rem;
+    --leading-title-md: 2rem;
+    --leading-title-sm: 1.75rem;
+
+    --leading-body-lg: 1.75rem;
+    --leading-body-md: 1.5rem;
+    --leading-body-sm: 1.25rem;
+
+    --leading-label-lg: 1.5rem;
+    --leading-label-md: 1.25rem;
+    --leading-label-sm: 1.125rem;
+
+    --height-display-lg: 4.75rem;
+    --height-display-md: 4.25rem;
+    --height-display-sm: 3.75rem;
+
+    --height-headline-lg: 3rem;
+    --height-headline-md: 2.75rem;
+    --height-headline-sm: 2.5rem;
+
+    --height-title-lg: 2.25rem;
+    --height-title-md: 2rem;
+    --height-title-sm: 1.75rem;
+
+    --height-body-lg: 1.75rem;
+    --height-body-md: 1.5rem;
+    --height-body-sm: 1.25rem;
+
+    --height-label-lg: 1.5rem;
+    --height-label-md: 1.25rem;
+    --height-label-sm: 1.125rem;
   }
 
   .dark:root {
