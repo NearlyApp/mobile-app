@@ -44,7 +44,6 @@ const SignUpScreen: React.FC = () => {
       {
         onSuccess: (data) => {
           form.reset();
-          router.replace(ROUTES.profile(data.uuid));
         },
         onError: (error) => {
           /**

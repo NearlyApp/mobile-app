@@ -49,3 +49,13 @@ export const signUpSchema = z
     path: ['confirmPassword'],
     message: i18n.t('auth.signUp.error.password.match'),
   });
+
+export const signInSchema = z.object({
+  login: z.string().min(1, {
+    message: i18n.t('auth.signIn.error.loginRequired'),
+  }),
+  password: z.string().min(1, {
+    message: i18n.t('auth.signIn.error.passwordRequired'),
+  }),
+  rememberMe: z.boolean().optional(),
+});
