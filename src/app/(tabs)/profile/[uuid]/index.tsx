@@ -28,7 +28,7 @@ const ProfileScreen: React.FC = () => {
         }
       >
         <View className="flex flex-row items-start gap-4">
-          <Avatar alt="User Avatar">
+          <Avatar size="2xl" alt="User Avatar">
             <AvatarImage src={user?.avatarUrl || undefined} />
             <AvatarFallback />
           </Avatar>

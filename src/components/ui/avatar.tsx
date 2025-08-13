@@ -24,7 +24,9 @@ const avatarVariants = cva(
 
 interface IAvatarProps
   extends AvatarPrimitive.RootProps,
-    VariantProps<typeof avatarVariants> {}
+    VariantProps<typeof avatarVariants> {
+  ref?: React.RefObject<AvatarPrimitive.RootRef>;
+}
 
 export const Avatar: React.FC<IAvatarProps> = ({
   className,
@@ -37,19 +39,23 @@ export const Avatar: React.FC<IAvatarProps> = ({
   />
 );
 
-interface IAvatarImageProps extends AvatarPrimitive.ImageProps {}
+interface IAvatarImageProps extends AvatarPrimitive.ImageProps {
+  ref?: React.RefObject<AvatarPrimitive.ImageRef>;
+}
 
 export const AvatarImage: React.FC<IAvatarImageProps> = ({
   className,
   ...props
 }) => (
-  <AvatarImage
+  <AvatarPrimitive.Image
     className={cn('aspect-square h-full w-full', className)}
     {...props}
   />
 );
 
-interface IAvatarFallbackProps extends AvatarPrimitive.FallbackProps {}
+interface IAvatarFallbackProps extends AvatarPrimitive.FallbackProps {
+  ref?: React.RefObject<AvatarPrimitive.FallbackRef>;
+}
 
 export const AvatarFallback: React.FC<IAvatarFallbackProps> = ({
   className,
