@@ -12,7 +12,8 @@ const useSignOut = () =>
     mutationFn: signOut,
     onSuccess: () => {
       const queryClient = getQueryClient();
-      queryClient.removeQueries({ queryKey: CURRENT_USER_QUERY_KEY() });
+      queryClient.setQueryData(CURRENT_USER_QUERY_KEY(), null);
+      queryClient.invalidateQueries({ queryKey: CURRENT_USER_QUERY_KEY() });
     },
   });
 
