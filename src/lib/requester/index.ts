@@ -50,6 +50,7 @@ client.interceptors.response.use(
             error: 'Request Time-out',
             message: 'Request timeout – please check your internet connection',
           });
+          break;
         case 'ERR_NETWORK':
         case 'NETWORK_ERROR':
           axiosError = new RequesterError({
@@ -57,6 +58,7 @@ client.interceptors.response.use(
             error: 'Network Error',
             message: 'Network error – please check your internet connection',
           });
+          break;
         default:
           axiosError = new RequesterError({
             statusCode: 500,
