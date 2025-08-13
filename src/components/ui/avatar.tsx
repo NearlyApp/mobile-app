@@ -1,6 +1,7 @@
 import { cn } from '@lib/utils';
 import * as AvatarPrimitive from '@rn-primitives/avatar';
 import { cva, VariantProps } from 'class-variance-authority';
+import { Image } from 'react-native';
 
 const avatarVariants = cva(
   'relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full',
@@ -14,6 +15,10 @@ const avatarVariants = cva(
         lg: 'h-12 w-12', // 48px
         xl: 'h-14 w-14', // 56px
         '2xl': 'h-16 w-16', // 64px
+        '3xl': 'h-20 w-20', // 80px
+        '4xl': 'h-24 w-24', // 96px
+        '5xl': 'h-28 w-28', // 112px
+        '6xl': 'h-32 w-32', // 128px
       },
     },
     defaultVariants: {
@@ -53,19 +58,28 @@ export const AvatarImage: React.FC<IAvatarImageProps> = ({
   />
 );
 
-interface IAvatarFallbackProps extends AvatarPrimitive.FallbackProps {
+interface IAvatarFallbackProps
+  extends Omit<AvatarPrimitive.FallbackProps, 'children'> {
   ref?: React.RefObject<AvatarPrimitive.FallbackRef>;
 }
 
 export const AvatarFallback: React.FC<IAvatarFallbackProps> = ({
   className,
   ...props
-}) => (
-  <AvatarPrimitive.Fallback
-    className={cn(
-      'flex h-full w-full items-center justify-center rounded-full bg-muted',
-      className,
-    )}
-    {...props}
-  />
-);
+}) => {
+  return (
+    <AvatarPrimitive.Fallback
+      className={cn(
+        'flex h-full w-full items-center justify-center rounded-full bg-muted',
+        className,
+      )}
+      {...props}
+    >
+      <Image
+        source={require('@assets/avatar_placeholder.png')}
+        className="h-full w-full"
+        resizeMode="cover"
+      />
+    </AvatarPrimitive.Fallback>
+  );
+};
