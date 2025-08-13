@@ -44,6 +44,10 @@
     "signIn": {
       "title": "Sign In to Nearly",
       "submit": "Sign In",
+      "noAccount": {
+        "text": "Don't have an account?",
+        "link": "Sign Up"
+      },
       "field": {
         "login": {
           "label": "Username or Email"
