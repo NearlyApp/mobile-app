@@ -44,7 +44,6 @@ const SignUpScreen: React.FC = () => {
       {
         onSuccess: (data) => {
           form.reset();
-          router.replace(ROUTES.profile(data.uuid));
         },
         onError: (error) => {
           /**
@@ -76,7 +75,13 @@ const SignUpScreen: React.FC = () => {
               <FormLabel>
                 {i18n.t('auth.signUp.field.username.label')}
               </FormLabel>
-              <Input autoComplete="given-name" {...field} />
+              <Input
+                autoComplete="username"
+                {...field}
+                onChangeText={(value: string) =>
+                  field.onChange({ target: { value } })
+                }
+              />
               <FormMessage />
             </FormItem>
           )}
@@ -86,12 +91,15 @@ const SignUpScreen: React.FC = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel> {i18n.t('auth.signUp.field.email.label')}</FormLabel>
+              <FormLabel>{i18n.t('auth.signUp.field.email.label')}</FormLabel>
               <Input
                 autoComplete="email"
                 keyboardType="email-address"
                 autoCapitalize="none"
                 {...field}
+                onChangeText={(value: string) =>
+                  field.onChange({ target: { value } })
+                }
               />
               <FormMessage />
             </FormItem>
@@ -110,6 +118,9 @@ const SignUpScreen: React.FC = () => {
                 secureTextEntry
                 autoCapitalize="none"
                 {...field}
+                onChangeText={(value: string) =>
+                  field.onChange({ target: { value } })
+                }
               />
               <FormMessage />
             </FormItem>
@@ -128,6 +139,9 @@ const SignUpScreen: React.FC = () => {
                 secureTextEntry
                 autoCapitalize="none"
                 {...field}
+                onChangeText={(value: string) =>
+                  field.onChange({ target: { value } })
+                }
               />
               <FormMessage />
             </FormItem>

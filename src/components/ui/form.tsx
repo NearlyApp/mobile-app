@@ -80,20 +80,21 @@ export const FormMessage: React.FC<IFormMessageProps> = ({
   ) : null;
 };
 
-type RenderParameters<TFieldValues extends FieldValues> = Parameters<
-  ControllerProps<TFieldValues>['render']
->[0];
+// type RenderParameters<TFieldValues extends FieldValues> = Parameters<
+//   ControllerProps<TFieldValues>['render']
+// >[0];
 
 interface IFormFieldProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
   control?: UseFormReturn<TFieldValues>['control'];
-  render: (params: {
-    field: Omit<RenderParameters<TFieldValues>['field'], 'onChange'> & {
-      onChangeText: (value: string) => void;
-    };
-    fieldState: RenderParameters<TFieldValues>['fieldState'];
-    formState: RenderParameters<TFieldValues>['formState'];
-  }) => React.ReactElement;
+  render: ControllerProps<TFieldValues>['render'];
+  // render: (params: {
+  //   field: Omit<RenderParameters<TFieldValues>['field'], 'onChange'> & {
+  //     onChangeText: (value: string) => void;
+  //   };
+  //   fieldState: RenderParameters<TFieldValues>['fieldState'];
+  //   formState: RenderParameters<TFieldValues>['formState'];
+  // }) => React.ReactElement;
 }
 
 export function FormField<TFieldValues extends FieldValues>({
@@ -115,17 +116,18 @@ export function FormField<TFieldValues extends FieldValues>({
       <Controller
         control={control}
         name={name}
-        render={({ field, fieldState, formState }) => {
-          const { onChange, ...restField } = field;
-          return render({
-            field: {
-              ...restField,
-              onChangeText: (value: string) => onChange({ target: { value } }),
-            },
-            fieldState,
-            formState,
-          });
-        }}
+        render={render}
+        // render={({ field, fieldState, formState }) => {
+        //   const { onChange, ...restField } = field;
+        //   return render({
+        //     field: {
+        //       ...restField,
+        //       onChangeText: (value: string) => onChange({ target: { value } }),
+        //     },
+        //     fieldState,
+        //     formState,
+        //   });
+        // }}
       />
     </FormFieldContext.Provider>
   );

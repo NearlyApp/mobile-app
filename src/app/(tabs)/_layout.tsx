@@ -1,3 +1,4 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import ROUTES from '@constants/routes';
 import useCurrentUser from '@hooks/users/useCurrentUser';
 import { Tabs } from 'expo-router';
@@ -17,21 +18,26 @@ const TabsLayout: React.FC = () => {
       <Tabs.Screen
         name={ROUTES.home()}
         options={{
-          tabBarIcon: ({ focused, size }) => <Home size={size} />,
+          tabBarIcon: ({ size }) => <Home size={size} />,
         }}
       />
       <Tabs.Screen
         name={ROUTES.auth()}
         options={{
-          tabBarIcon: ({ focused, size }) => <User size={size} />,
-          href: user ? null : undefined, // Hide auth tab if user is logged in
+          tabBarIcon: ({ size }) => <User size={size} />,
+          href: user ? null : undefined,
         }}
       />
       <Tabs.Screen
         name={ROUTES.profile()}
         options={{
-          tabBarIcon: ({ focused, size }) => <User size={size} />,
-          href: !user ? null : undefined, // Hide profile tab if user is not logged in
+          href: !user ? null : undefined,
+          tabBarIcon: () => (
+            <Avatar size="sm" alt="User Avatar">
+              <AvatarImage src={user?.avatarUrl || undefined} />
+              <AvatarFallback />
+            </Avatar>
+          ),
         }}
       />
     </Tabs>

@@ -14,7 +14,7 @@ const client: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 5000,
+  timeout: 10000,
 });
 
 client.interceptors.request.use((request: InternalAxiosRequestConfig) => {
@@ -28,26 +28,48 @@ client.interceptors.request.use((request: InternalAxiosRequestConfig) => {
 client.interceptors.response.use(
   async (response: AxiosResponse) => response,
   (error: AxiosError) => {
-    switch (error.response?.status) {
-      case 401:
-        // Add some logic for unauthorized access if needed
-        break;
-    }
+    if (error.response) {
+      throw new RequesterError({
+        statusCode:
+          (error.response?.data as ErrorData)?.statusCode ??
+          error.response?.status,
+        error:
+          (error.response?.data as ErrorData)?.error ??
+          error.response?.statusText,
+        message:
+          (error.response?.data as ErrorData)?.message ??
+          error.response?.statusText,
+      });
+    } else if (error.code) {
+      let axiosError: RequesterError;
 
-    throw new RequesterError({
-      error:
-        (error.response?.data as ErrorData)?.error ??
-        error.response?.statusText ??
-        'Unknown error',
-      message:
-        (error.response?.data as ErrorData)?.message ??
-        error.response?.statusText ??
-        'An error occurred',
-      statusCode:
-        (error.response?.data as ErrorData)?.statusCode ??
-        error.response?.status ??
-        500,
-    });
+      switch (error.code) {
+        case 'ECONNABORTED':
+          axiosError = new RequesterError({
+            statusCode: 408,
+            error: 'Request Time-out',
+            message: 'Request timeout – please check your internet connection',
+          });
+          break;
+        case 'ERR_NETWORK':
+        case 'NETWORK_ERROR':
+          axiosError = new RequesterError({
+            statusCode: 503,
+            error: 'Network Error',
+            message: 'Network error – please check your internet connection',
+          });
+          break;
+        default:
+          axiosError = new RequesterError({
+            statusCode: 500,
+            error: 'Unknown Error',
+            message: 'An unknown error occurred',
+          });
+      }
+
+      console.error(axiosError);
+      throw axiosError;
+    }
   },
 );
 
