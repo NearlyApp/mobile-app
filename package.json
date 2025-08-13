@@ -57,7 +57,6 @@
     "@react-native-reusables/cli": "^0.4.1",
     "@types/react": "~19.0.10",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
-    "eas-cli": "^16.17.4",
     "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",

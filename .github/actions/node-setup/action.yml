@@ -1,0 +1,23 @@
+name: 'Common Node.js Setup'
+inputs:
+  node-version:
+    required: false
+    default: '22'
+runs:
+  using: 'composite'
+  steps:
+    - name: ⚙️ Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'npm'
+        registry-url: 'https://npm.pkg.github.com'
+        scope: '@nearlyapp'
+
+    - name: 📦 Install dependencies
+      run: npm ci
+      shell: bash
+
+    - name: 🧹 Clean up .npmrc
+      run: rm -f $GITHUB_WORKSPACE/.npmrc
+      shell: bash

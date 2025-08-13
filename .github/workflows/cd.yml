@@ -1,0 +1,45 @@
+name: CD
+
+on:
+  push:
+    branches: [main]
+
+env:
+  GHP_TOKEN: ${{ secrets.GHP_TOKEN }}
+  NODE_VERSION: '22'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: 🔄 Checkout repository
+        uses: actions/checkout@v4
+
+      - uses: ./.github/actions/node-setup
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+
+      - name: Login to EAS
+        run: eas login --token ${{ secrets.EXPO_TOKEN }}
+
+      - name: Build Android APK
+        run: eas build --platform android --profile production --non-interactive
+
+      - name: Get latest build URL
+        id: get_build_url
+        run: |
+          BUILD_URL=$(eas build:list --limit 1 --json | jq -r '.[0].artifacts.buildUrl')
+          echo "BUILD_URL=$BUILD_URL" >> $GITHUB_ENV
+          
+      - name: Download APK
+        run: |
+          wget ${{ env.BUILD_URL }} -O app.apk
+
+      
