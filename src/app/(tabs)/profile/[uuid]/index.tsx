@@ -1,47 +1,61 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
+import Header from '@components/profile/Header';
+import { Button } from '@components/ui/button';
 import { Skeleton } from '@components/ui/skeleton';
 import { Text } from '@components/ui/text';
 import useUser from '@hooks/users/useUser';
-import { useLocalSearchParams } from 'expo-router';
-import { RefreshControl, ScrollView, View } from 'react-native';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { ArrowLeft, EllipsisVertical, Settings } from 'lucide-react-native';
+import { useLayoutEffect, useMemo } from 'react';
+import { RefreshControl, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ProfileScreen: React.FC = () => {
   const { uuid } = useLocalSearchParams<{ uuid: string }>();
-  const {
-    data: user,
-    isFetched,
-    isFetching,
-    isError,
-    error,
-    refetch,
-  } = useUser(uuid);
+  const { data: user, isFetching, isError, refetch } = useUser(uuid);
+  const navigation = useNavigation();
+
+  const isUserProfile = useMemo(() => {
+    return user?.uuid === uuid;
+  }, [user?.uuid, uuid]);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <Button onPress={() => navigation.goBack()} variant="ghost">
+          <ArrowLeft />
+        </Button>
+      ),
+      headerTitle: () =>
+        user ? (
+          <Text size="titleMd" numberOfLines={1}>{user.displayName}</Text>
+        ) : (
+          <Skeleton className="h-title-md w-2/4" />
+        ),
+      headerRight: () =>
+        isUserProfile ? (
+          <Button variant="ghost">
+            <Settings />
+          </Button>
+        ) : (
+          <Button>
+            <EllipsisVertical />
+          </Button>
+        ),
+      headerShown: true,
+    });
+  }, [navigation, user]);
 
   if (isError) return <SafeAreaView></SafeAreaView>;
 
   return (
-    <SafeAreaView className="flex-1">
-      <ScrollView
-        className="flex flex-col gap-8 p-8"
-        refreshControl={
-          <RefreshControl refreshing={isFetching} onRefresh={refetch} />
-        }
-      >
-        <View className="flex flex-row items-start gap-4">
-          <Avatar size="2xl" alt="User Avatar">
-            <AvatarImage src={user?.avatarUrl || undefined} />
-            <AvatarFallback />
-          </Avatar>
-          <View className="flex flex-1 flex-col gap-2">
-            {isFetched && user ? (
-              <Text size="titleMd">{user.displayName}</Text>
-            ) : (
-              <Skeleton className="h-title-md" />
-            )}
-          </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <ScrollView
+      className="flex flex-1 flex-col"
+      refreshControl={
+        <RefreshControl refreshing={isFetching} onRefresh={refetch} />
+      }
+    >
+      <Header uuid={uuid} />
+    </ScrollView>
   );
 };
 
