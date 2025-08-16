@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import ROUTES from '@constants/routes';
 import useCurrentUser from '@hooks/users/useCurrentUser';
 import { Tabs } from 'expo-router';
-import { Home, User } from 'lucide-react-native';
+import { Home, PlusCircle, User } from 'lucide-react-native';
 
 const TabsLayout: React.FC = () => {
   const { data: user } = useCurrentUser();
