@@ -1,8 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import ROUTES from '@constants/routes';
+import DISCOVER_ROUTES from '@constants/routes/discover';
 import useCurrentUser from '@hooks/users/useCurrentUser';
 import { Tabs } from 'expo-router';
-import { Home, PlusCircle, User } from 'lucide-react-native';
+import { Home, PlusCircle, Search, User } from 'lucide-react-native';
 
 const TabsLayout: React.FC = () => {
   const { data: user } = useCurrentUser();
@@ -19,6 +20,19 @@ const TabsLayout: React.FC = () => {
         name={ROUTES.home()}
         options={{
           tabBarIcon: ({ size }) => <Home size={size} />,
+        }}
+      />
+      <Tabs.Screen
+        name={DISCOVER_ROUTES()}
+        options={{
+          tabBarIcon: ({ size }) => <Search size={size} />,
+        }}
+      />
+      <Tabs.Screen
+        name={ROUTES.publishButton()}
+        options={{
+          tabBarIcon: ({ size }) => <PlusCircle size={size} />,
+          href: !user ? null : undefined,
         }}
       />
       <Tabs.Screen

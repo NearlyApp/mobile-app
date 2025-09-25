@@ -1,6 +1,6 @@
 export default ({ config }) => ({
   ...config,
-  name: 'Nearly',
+  name: 'Nearby',
   slug: 'nearly',
   version: '1.0.0',
   orientation: 'portrait',
@@ -42,7 +42,7 @@ export default ({ config }) => ({
         category: ['BROWSABLE', 'DEFAULT'],
       },
     ],
-  },  
+  },
   extra: {
     apiBaseUrl: process.env.API_BASE_URL,
     router: {

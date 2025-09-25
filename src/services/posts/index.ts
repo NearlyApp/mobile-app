@@ -1,0 +1,14 @@
+import * as Types from '@/types/posts';
+import requester from '@lib/requester';
+
+const BASE_URL = '/posts';
+
+export const fetchPost = async (uuid: string) =>
+  requester().get<Types.FetchPostResponse>(`${BASE_URL}/${uuid}`);
+
+export const fetchPosts = async (params?: Types.FetchPostsQueryParams) =>
+  requester().get<Types.FetchPostsResponse>(BASE_URL, {
+    params,
+  });
+
+export const createPost = async () => requester().post(BASE_URL);

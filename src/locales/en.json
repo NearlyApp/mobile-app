@@ -4,7 +4,7 @@
   },
   "auth": {
     "signUp": {
-      "title": "Sign Up to Nearly",
+      "title": "Sign Up to Nearby",
       "submit": "Sign Up",
       "alreadyHaveAccount": {
         "text": "Already have an account?",
@@ -42,7 +42,7 @@
       }
     },
     "signIn": {
-      "title": "Sign In to Nearly",
+      "title": "Sign In to Nearby",
       "submit": "Sign In",
       "noAccount": {
         "text": "Don't have an account?",
