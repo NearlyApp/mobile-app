@@ -7,8 +7,8 @@
     "start:clear": "expo start --clear",
     "start:tunnel": "expo start --tunnel",
     "dev": "expo start --dev-client",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "router": "expo-router dev",
     "rnr:add": "npx @react-native-reusables/cli add",
     "common:up": "npm install @nearlyapp/common@latest"
