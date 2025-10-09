@@ -1,6 +1,7 @@
 import { ErrorData, Request, Requester } from '@/types/requester';
 import { API_BASE_URL } from '@constants/index';
 import RequesterError from '@lib/requester/RequesterError';
+import { sessionMiddleware } from '@lib/requester/session.middleware';
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -17,17 +18,28 @@ const client: AxiosInstance = axios.create({
   timeout: 10000,
 });
 
-client.interceptors.request.use((request: InternalAxiosRequestConfig) => {
+client.interceptors.request.use(async (request: InternalAxiosRequestConfig) => {
   console.debug(
     `Request made with ${request.method?.toUpperCase()} method to ${request.url}`,
   );
 
-  return request;
+  return await sessionMiddleware.addSessionToRequest(request);
 });
 
 client.interceptors.response.use(
-  async (response: AxiosResponse) => response,
-  (error: AxiosError) => {
+  async (response: AxiosResponse) => {
+    await sessionMiddleware.updateSessionFromResponse(response);
+    return response;
+  },
+  async (error: AxiosError) => {
+    switch (error.response?.status) {
+      case 401:
+        await sessionMiddleware.updateSessionFromResponse(error.response);
+        break;
+      default:
+        break;
+    }
+
     if (error.response) {
       throw new RequesterError({
         statusCode:

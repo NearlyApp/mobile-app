@@ -1,7 +1,12 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const DiscoverScreen: React.FC = () => {
-  return <SafeAreaView></SafeAreaView>;
+const DiscoverPage: NavScreen = () => {
+  return (
+    <SafeAreaView
+      edges={['top', 'left', 'right', 'bottom']}
+      className="flex-1"
+    ></SafeAreaView>
+  );
 };
 
-export default DiscoverScreen;
+export default DiscoverPage;

@@ -11,7 +11,6 @@ const ROUTES = {
   auth: AUTH_ROUTES,
   settings: SETTINGS_ROUTES,
 
-  publishButton: () => 'publish-button',
   publish: () => 'publish',
 
   tabs: () => '(tabs)',

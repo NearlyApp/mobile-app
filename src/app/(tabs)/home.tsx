@@ -5,7 +5,7 @@ import useCurrentUser from '@hooks/users/useCurrentUser';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const HomeScreen: React.FC = () => {
+const HomePage: NavScreen = () => {
   const { data: user } = useCurrentUser();
   const signOut = useSignOut();
 
@@ -14,7 +14,10 @@ const HomeScreen: React.FC = () => {
   }
 
   return (
-    <SafeAreaView className="flex flex-col gap-4 p-8">
+    <SafeAreaView
+      edges={['top', 'left', 'right', 'bottom']}
+      className="flex flex-1 flex-col gap-4 p-8"
+    >
       <Text>Home Screen</Text>
       {!!user && (
         <Button onPress={handleSignOut}>
@@ -25,4 +28,4 @@ const HomeScreen: React.FC = () => {
   );
 };
 
-export default HomeScreen;
+export default HomePage;

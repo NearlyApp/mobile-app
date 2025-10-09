@@ -9,16 +9,17 @@ interface IProps {
   navigation: NativeStackNavigationProp<any, string, undefined>;
 }
 
-const GuestGuard: React.FC<IProps> = ({ children, navigation }) => {
-  const { data: user, isLoading, isFetched } = useCurrentUser();
+const RestrictedGuard: React.FC<IProps> = ({ children, navigation }) => {
+  const { data: user, isLoading, isFetched, isError } = useCurrentUser();
 
   useLayoutEffect(() => {
-    if (isFetched && user) navigation.navigate(ROUTES.profile());
-  }, [isFetched, user]);
+    if ((isFetched && !user) || isError)
+      navigation.navigate(ROUTES.auth.signUp());
+  }, [isFetched, user, isError]);
 
   if (isLoading) return <FullScreenLoader />;
 
   return children;
 };
 
-export default GuestGuard;
+export default RestrictedGuard;

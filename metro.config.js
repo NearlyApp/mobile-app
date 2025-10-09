@@ -8,7 +8,7 @@ let config = getDefaultConfig(__dirname);
 
 config.resolver.assetExts.push('ogg', 'png');
 config.resolver.sourceExts.push('mjs', 'cjs');
-config.resolver.unstable_enablePackageExports = false;
+config.resolver.unstable_enablePackageExports = true;
 config.resolver.platforms = ['ios', 'android'];
 
 config = withNativeWind(config, {

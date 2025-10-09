@@ -52,12 +52,5 @@ export default ({ config }) => ({
       projectId: process.env.EXPO_PROJECT_ID,
     },
   },
-  plugins: [
-    [
-      'expo-router',
-      {
-        root: './src/app',
-      },
-    ],
-  ],
+  plugins: ['expo-secure-store'],
 });

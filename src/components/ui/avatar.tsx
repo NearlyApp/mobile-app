@@ -20,6 +20,10 @@ const avatarVariants = cva(
         '5xl': 'h-28 w-28', // 112px
         '6xl': 'h-32 w-32', // 128px
       },
+      focused: {
+        true: '',
+        false: '',
+      },
     },
     defaultVariants: {
       size: 'md',
@@ -36,10 +40,11 @@ interface IAvatarProps
 export const Avatar: React.FC<IAvatarProps> = ({
   className,
   size,
+  focused,
   ...props
 }) => (
   <AvatarPrimitive.Root
-    className={cn(avatarVariants({ size }), className)}
+    className={cn(avatarVariants({ size, focused }), className)}
     {...props}
   />
 );

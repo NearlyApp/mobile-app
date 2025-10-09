@@ -11,4 +11,7 @@ export const fetchPosts = async (params?: Types.FetchPostsQueryParams) =>
     params,
   });
 
-export const createPost = async () => requester().post(BASE_URL);
+export const createPost = async (data: Types.CreatePostDto) =>
+  requester().post<Types.CreatePostResponse>(BASE_URL, {
+    data,
+  });
