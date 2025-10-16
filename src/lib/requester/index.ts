@@ -27,7 +27,7 @@ client.interceptors.request.use((request: InternalAxiosRequestConfig) => {
 
 client.interceptors.response.use(
   async (response: AxiosResponse) => response,
-  (error: AxiosError) => {
+  async (error: AxiosError) => {
     if (error.response) {
       throw new RequesterError({
         statusCode:

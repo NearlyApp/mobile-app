@@ -1,5 +1,7 @@
 import '@styles/global.css';
 
+import TabsLayout from '@app/(tabs)/layout';
+import PublishPage from '@app/publish';
 import ReactQueryProvider from '@components/ReactQueryProvider';
 import ROUTES from '@constants/routes';
 import { NAV_THEME } from '@constants/theme';
@@ -7,10 +9,11 @@ import { useColorScheme } from '@hooks/useColorScheme';
 import {
   DarkTheme,
   DefaultTheme,
+  NavigationContainer,
   Theme,
   ThemeProvider,
 } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -24,10 +27,7 @@ const DARK_THEME: Theme = {
   colors: NAV_THEME.dark,
 };
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
+const RootStack = createNativeStackNavigator();
 
 const RootLayout: React.FC = () => {
   const hasMounted = useRef(false);
@@ -52,10 +52,20 @@ const RootLayout: React.FC = () => {
       <SafeAreaProvider>
         <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
           <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-          <Stack
-            initialRouteName={ROUTES.tabs()}
-            screenOptions={{ headerShown: false }}
-          />
+          <NavigationContainer>
+            <RootStack.Navigator screenOptions={{ headerShown: false }}>
+              <RootStack.Screen
+                name={ROUTES.tabs()}
+                component={TabsLayout}
+                options={TabsLayout.options}
+              />
+              <RootStack.Screen
+                name={ROUTES.publish()}
+                component={PublishPage}
+                options={PublishPage.options}
+              />
+            </RootStack.Navigator>
+          </NavigationContainer>
         </ThemeProvider>
       </SafeAreaProvider>
     </ReactQueryProvider>

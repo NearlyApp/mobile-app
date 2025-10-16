@@ -1,10 +1,10 @@
 import Spinner from '@components/ui/loading/spinner';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const FullScreenLoader: React.FC = () => (
-  <View className="flex h-full w-full flex-1 items-center justify-center">
+  <SafeAreaView className="flex h-full w-full flex-1 items-center justify-center">
     <Spinner className="-translate-y-1/2" size="lg" />
-  </View>
+  </SafeAreaView>
 );
 
 export default FullScreenLoader;

@@ -12,6 +12,7 @@
       "@hooks/*": ["src/hooks/*"],
       "@lib/*": ["src/lib/*"],
       "@locales/*": ["src/locales/*"],
+      "@navigation/*": ["src/navigation/*"],
       "@schemas/*": ["src/schemas/*"],
       "@services/*": ["src/services/*"],
       "@styles/*": ["src/styles/*"],

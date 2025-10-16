@@ -3,6 +3,8 @@
 # dependencies
 node_modules/
 
+android/
+
 # Expo
 .expo/
 dist/
@@ -37,4 +39,3 @@ yarn-error.*
 *.tsbuildinfo
 
 .env
-.npmrc

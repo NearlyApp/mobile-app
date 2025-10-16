@@ -1,13 +1,13 @@
 export default ({ config }) => ({
   ...config,
-  name: 'Nearly',
-  slug: 'nearly',
+  name: 'Nearby',
+  slug: 'app',
   version: '1.0.0',
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'light',
   newArchEnabled: true,
-  scheme: 'nearly',
+  scheme: 'nearby',
   splash: {
     image: './assets/splash-icon.png',
     resizeMode: 'contain',
@@ -16,11 +16,11 @@ export default ({ config }) => ({
   platforms: ['ios', 'android'],
   ios: {
     supportsTablet: true,
-    bundleIdentifier: 'fr.nearly.app',
-    scheme: 'nearly',
+    bundleIdentifier: 'fr.nearby.app',
+    scheme: 'nearby',
   },
   android: {
-    package: 'fr.nearly.app',
+    package: 'fr.nearby.app',
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#ffffff',
@@ -33,28 +33,24 @@ export default ({ config }) => ({
         data: [
           {
             scheme: 'https',
-            host: 'nearly.app',
+            host: 'nearby.app',
           },
           {
-            scheme: 'nearly',
+            scheme: 'nearby',
           },
         ],
         category: ['BROWSABLE', 'DEFAULT'],
       },
     ],
-  },  
+  },
   extra: {
     apiBaseUrl: process.env.API_BASE_URL,
     router: {
       origin: false,
     },
+    eas: {
+      projectId: process.env.EXPO_PROJECT_ID,
+    },
   },
-  plugins: [
-    [
-      'expo-router',
-      {
-        root: './src/app',
-      },
-    ],
-  ],
+  plugins: ['expo-secure-store'],
 });

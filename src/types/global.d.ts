@@ -1,4 +1,3 @@
-import { StackParamList } from '@/types/navigation';
 import {
   NativeStackNavigationOptions,
   NativeStackScreenProps,
@@ -9,7 +8,8 @@ declare global {
   export type Optional<T> = T | undefined;
   export type Nullish<T> = T | null | undefined;
 
-  export type NavScreen<Name extends keyof StackParamList> = React.FC<
-    NativeStackScreenProps<StackParamList, Name>
-  > & { options?: NativeStackNavigationOptions };
+  export type NavScreen<T extends any = any> =
+    React.FC<NativeStackScreenProps> & {
+      options?: NativeStackNavigationOptions;
+    };
 }

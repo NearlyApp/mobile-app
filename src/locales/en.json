@@ -4,7 +4,7 @@
   },
   "auth": {
     "signUp": {
-      "title": "Sign Up to Nearly",
+      "title": "Sign Up to Nearby",
       "submit": "Sign Up",
       "alreadyHaveAccount": {
         "text": "Already have an account?",
@@ -42,8 +42,12 @@
       }
     },
     "signIn": {
-      "title": "Sign In to Nearly",
+      "title": "Sign In to Nearby",
       "submit": "Sign In",
+      "noAccount": {
+        "text": "Don't have an account?",
+        "link": "Sign Up"
+      },
       "field": {
         "login": {
           "label": "Username or Email"
@@ -58,6 +62,15 @@
       "error": {
         "loginRequired": "Login is required.",
         "passwordRequired": "Password is required."
+      }
+    }
+  },
+  "publish": {
+    "submit": "Publish",
+    "error": {
+      "content": {
+        "notEmpty": "Your post cannot be empty.",
+        "maxLength": "Your post cannot exceed {{max}} characters."
       }
     }
   }

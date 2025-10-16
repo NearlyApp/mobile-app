@@ -2,7 +2,7 @@ import { cn } from '@lib/utils';
 import { forwardRef } from 'react';
 import { TextInput, type TextInputProps } from 'react-native';
 
-interface IInputProps extends TextInputProps {
+export interface IInputProps extends TextInputProps {
   ref?: React.RefObject<TextInput>;
   disabled?: boolean;
   errored?: boolean;
