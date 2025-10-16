@@ -24,6 +24,10 @@ const buttonVariants = cva(
         lg: 'h-11 rounded-md px-8 native:h-14',
         icon: 'h-10 w-10',
       },
+      disabled: {
+        true: 'opacity-50',
+        false: '',
+      },
     },
     defaultVariants: {
       variant: 'default',
@@ -60,13 +64,16 @@ function Button({ ref, className, variant, size, ...props }: ButtonProps) {
     <TextClassContext.Provider
       value={buttonTextVariants({
         variant,
-        className: 'web:pointer-events-none',
       })}
     >
       <Pressable
         className={cn(
-          props.disabled && 'opacity-50 web:pointer-events-none',
-          buttonVariants({ variant, size, className }),
+          buttonVariants({
+            variant,
+            size,
+            disabled: props.disabled,
+          }),
+          className,
         )}
         ref={ref}
         role="button"

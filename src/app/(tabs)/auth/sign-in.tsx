@@ -2,7 +2,6 @@ import i18n from '@/i18n';
 import SignInForm from '@components/auth/SignInForm';
 import { Text } from '@components/ui/text';
 import ROUTES from '@constants/routes';
-import { TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SignInPage: NavScreen = ({ navigation }) => {
@@ -19,11 +18,12 @@ const SignInPage: NavScreen = ({ navigation }) => {
 
       <Text size="bodyMd">
         {i18n.t('auth.signIn.noAccount.text')}{' '}
-        <TouchableOpacity
+        <Text
+          weight="bold"
           onPress={() => navigation.navigate(ROUTES.auth.signUp())}
         >
-          <Text weight="bold">{i18n.t('auth.signIn.noAccount.link')}</Text>
-        </TouchableOpacity>
+          {i18n.t('auth.signIn.noAccount.link')}
+        </Text>
       </Text>
     </SafeAreaView>
   );

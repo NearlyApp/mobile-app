@@ -64,5 +64,14 @@
         "passwordRequired": "Password is required."
       }
     }
+  },
+  "publish": {
+    "submit": "Publish",
+    "error": {
+      "content": {
+        "notEmpty": "Your post cannot be empty.",
+        "maxLength": "Your post cannot exceed {{max}} characters."
+      }
+    }
   }
 }

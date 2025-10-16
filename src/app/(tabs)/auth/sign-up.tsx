@@ -2,10 +2,9 @@ import i18n from '@/i18n';
 import SignUpForm from '@components/auth/SignUpForm';
 import { Text } from '@components/ui/text';
 import ROUTES from '@constants/routes';
-import { TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const SignUpPage: NavScreen = ({ navigation, route }) => {
+const SignUpPage: NavScreen = ({ navigation }) => {
   return (
     <SafeAreaView
       edges={['top', 'left', 'right', 'bottom']}
@@ -19,13 +18,12 @@ const SignUpPage: NavScreen = ({ navigation, route }) => {
 
       <Text size="bodyMd">
         {i18n.t('auth.signUp.alreadyHaveAccount.text')}{' '}
-        <TouchableOpacity
+        <Text
+          weight="bold"
           onPress={() => navigation.navigate(ROUTES.auth.signIn())}
         >
-          <Text weight="bold">
-            {i18n.t('auth.signUp.alreadyHaveAccount.link')}
-          </Text>
-        </TouchableOpacity>
+          {i18n.t('auth.signUp.alreadyHaveAccount.link')}
+        </Text>
       </Text>
     </SafeAreaView>
   );

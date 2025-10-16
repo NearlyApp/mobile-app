@@ -1,15 +1,14 @@
 import RestrictedGuard from '@components/guards/RestrictedGuard';
 import PublishForm from '@components/publish/PublishForm';
 import { Button } from '@components/ui/button';
-import { Text } from '@components/ui/text';
 import { X } from 'lucide-react-native';
-import { useLayoutEffect, useRef } from 'react';
+import { useCallback, useLayoutEffect, useRef } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const PublishPage: NavScreen = ({ navigation }) => {
-  const formRef = useRef<Nullable<{ onSubmit: () => void }>>(null);
+  const submitButtonRef = useRef<React.ReactNode>(null);
 
-  useLayoutEffect(() => {
+  const updateNavigationOptions = useCallback(() => {
     navigation.setOptions({
       headerLeft: () => (
         <Button onPress={() => navigation.goBack()} variant="ghost">
@@ -17,19 +16,27 @@ const PublishPage: NavScreen = ({ navigation }) => {
         </Button>
       ),
       headerTitle: '',
-      headerRight: () => (
-        <Button onPress={() => formRef.current?.onSubmit()}>
-          <Text>Publish</Text>
-        </Button>
-      ),
+      headerRight: () => submitButtonRef.current,
       headerShown: true,
     });
   }, [navigation]);
 
+  const handleSubmitButtonReady = useCallback(
+    (button: React.ReactElement) => {
+      submitButtonRef.current = button;
+      updateNavigationOptions();
+    },
+    [updateNavigationOptions],
+  );
+
+  useLayoutEffect(() => {
+    updateNavigationOptions();
+  }, [updateNavigationOptions]);
+
   return (
     <RestrictedGuard navigation={navigation}>
       <SafeAreaView edges={['left', 'right', 'bottom']} className="flex-1 p-4">
-        <PublishForm ref={formRef} />
+        <PublishForm onSubmitButtonReady={handleSubmitButtonReady} />
       </SafeAreaView>
     </RestrictedGuard>
   );

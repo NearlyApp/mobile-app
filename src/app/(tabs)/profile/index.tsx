@@ -4,7 +4,7 @@ import ProfileView from '@components/profile/ProfileView';
 const ProfilePage: NavScreen = ({ navigation, route }) => {
   return (
     <RestrictedGuard navigation={navigation}>
-      <ProfileView uuid={route.params.uuid} isPersonalProfile />
+      <ProfileView uuid={route} isPersonalProfile />
     </RestrictedGuard>
   );
 };
