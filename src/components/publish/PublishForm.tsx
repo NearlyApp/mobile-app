@@ -60,13 +60,23 @@ const PublishForm: React.FC<IProps> = ({ onSubmitButtonReady }) => {
       );
       return;
     }
-
-    mutate({
+    console.log('Submitting post with data:', {
       content: data.content,
-      parentPostUuid: data.parentPostUuid,
+      ...(data.parentPostUuid ? { parentPostUuid: data.parentPostUuid } : {}),
       lat: data.coords.lat,
       lng: data.coords.lng,
       alt: data.coords.alt || null,
+    });
+    mutate({
+      content: data.content,
+      ...(data.parentPostUuid ? { parentPostUuid: data.parentPostUuid } : {}),
+      lat: data.coords.lat,
+      lng: data.coords.lng,
+      alt: data.coords.alt || null,
+    }, {
+      onError: (error) => {
+        console.error(error)
+      }
     });
   };
 

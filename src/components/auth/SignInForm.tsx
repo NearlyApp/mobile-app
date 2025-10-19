@@ -13,6 +13,7 @@ import { Text } from '@components/ui/text';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useSignIn from '@hooks/auth/useSignIn';
 import { signInSchema } from '@schemas/auth';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { View } from 'react-native';
 import z from 'zod';
@@ -20,6 +21,8 @@ import z from 'zod';
 type FormValues = z.infer<typeof signInSchema>;
 
 const SignInForm: React.FC = () => {
+  const [message, setMessage] = useState<string | null>(null);
+
   const form = useForm<FormValues>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -32,6 +35,7 @@ const SignInForm: React.FC = () => {
   const mutation = useSignIn();
 
   function onSubmit(data: FormValues) {
+    setMessage(null);
     mutation.mutate(
       {
         login: data.login,
@@ -46,6 +50,8 @@ const SignInForm: React.FC = () => {
           /**
            * @todo Fix this error handling
            */
+          console.error(error);
+          setMessage(error.message);
           if (error.data.errors && Object.keys(error.data.errors).length > 0)
             for (const [key, value] of Object.entries(error.data.errors)) {
               form.setError(key as keyof FormValues, {
@@ -119,6 +125,13 @@ const SignInForm: React.FC = () => {
           </FormItem>
         )}
       />
+      {
+        message && (
+          <Text className="text-red-600 mb-2">
+            {message}
+          </Text>
+        )
+      }
       <Button onPress={form.handleSubmit(onSubmit)}>
         <Text>{i18n.t('auth.signIn.submit')}</Text>
       </Button>
