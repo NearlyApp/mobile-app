@@ -19,7 +19,7 @@ const client: AxiosInstance = axios.create({
 
 client.interceptors.request.use((request: InternalAxiosRequestConfig) => {
   console.debug(
-    `Request made with ${request.method?.toUpperCase()} method to ${request.url}`,
+    `Request made with ${request.method?.toUpperCase()} method to ${request.baseURL}${request.url}`,
   );
 
   return request;
