@@ -1,11 +1,19 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
+import { Button } from '@components/ui/button';
 import { Skeleton } from '@components/ui/skeleton';
 import { Text } from '@components/ui/text';
+import useSignOut from '@hooks/auth/useSignOut';
 import useUser from '@hooks/users/useUser';
 import { View } from 'react-native';
 
 const Header: React.FC<{ uuid: string }> = ({ uuid }) => {
   const { data: user, isFetched } = useUser(uuid);
+  const signOut = useSignOut();
+
+  
+  function handleSignOut() {
+    signOut.mutate();
+  }
 
   return (
     <View className="flex flex-col gap-4 p-4">
@@ -34,6 +42,9 @@ const Header: React.FC<{ uuid: string }> = ({ uuid }) => {
             <Skeleton className="h-label-md w-1/2" />
           )}
         </View>
+        <Button onPress={handleSignOut} className='w-32 h-auto'>
+          <Text>Sign Out</Text>
+        </Button>
       </View>
     </View>
   );

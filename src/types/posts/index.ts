@@ -16,7 +16,7 @@ export type CreatePostDto = {
   parentPostUuid?: string;
   lat: Latitude;
   lng: Longitude;
-  alt: Altitude;
+  alt?: Altitude;
 };
 
 export type CreatePostResponse = unknown;

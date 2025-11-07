@@ -2,6 +2,7 @@ import Header from '@components/profile/Header';
 import useUser from '@hooks/users/useUser';
 import { RefreshControl, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ProfilePosts from './Posts';
 
 type Props = {
   uuid: string;
@@ -25,6 +26,7 @@ const ProfileView: React.FC<Props> = ({ uuid, isPersonalProfile = false }) => {
         }
       >
         <Header uuid={uuid} />
+        <ProfilePosts uuid={uuid} />
       </ScrollView>
     </SafeAreaView>
   );

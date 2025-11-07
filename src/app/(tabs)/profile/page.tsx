@@ -1,20 +1,13 @@
-import FullScreenLoader from '@components/ui/loading/FullScreenLoader';
-import useCurrentUser from '@hooks/users/useCurrentUser';
+import RestrictedGuard from '@components/guards/RestrictedGuard';
+import ProfileView from '@components/profile/ProfileView';
 import React from 'react';
 
-const ProfilePage: NavScreen = () => {
-  const { data: user, isFetched, isError } = useCurrentUser();
-  // const navigation = useNavigation();
-
-  // useEffect(() => {
-  //   if (isFetched && user) {
-  //     navigation.navigate(user.uuid);
-  //   } else if ((isFetched && !user) || isError) {
-  //     navigation.goToAuth();
-  //   }
-  // }, [isFetched, user, isError, navigation]);
-
-  return <FullScreenLoader />;
+const ProfilePage: NavScreen = ({ navigation, route }) => {
+  return (
+    <RestrictedGuard navigation={navigation}>
+      <ProfileView uuid={route.params.uuid} isPersonalProfile />
+    </RestrictedGuard>
+  );
 };
 
 export default ProfilePage;

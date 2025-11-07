@@ -11,7 +11,10 @@ export const fetchPosts = async (params?: Types.FetchPostsQueryParams) =>
     params,
   });
 
-export const createPost = async (data: Types.CreatePostDto) =>
-  requester().post<Types.CreatePostResponse>(BASE_URL, {
-    data,
+export const fetchPostsAuthor = async (authorUuid: string, params?: Types.FetchPostsQueryParams) =>
+  requester().get<Types.FetchPostsResponse>(`${BASE_URL}/author/${authorUuid}`, {
+    params,
   });
+
+export const createPost = async (data: Types.CreatePostDto) =>
+  requester().post<Types.CreatePostResponse>(BASE_URL, data);
