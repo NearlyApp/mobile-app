@@ -74,6 +74,9 @@ const PublishForm: React.FC<IProps> = ({ onSubmitButtonReady }) => {
     }, {
       onError: (error) => {
         console.error(error)
+      },
+      onSuccess: (data) => {
+        console.log('Post created successfully:', data);
       }
     });
   };
