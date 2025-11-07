@@ -65,14 +65,12 @@ const PublishForm: React.FC<IProps> = ({ onSubmitButtonReady }) => {
       ...(data.parentPostUuid ? { parentPostUuid: data.parentPostUuid } : {}),
       lat: data.coords.lat,
       lng: data.coords.lng,
-      alt: data.coords.alt || null,
     });
     mutate({
       content: data.content,
       ...(data.parentPostUuid ? { parentPostUuid: data.parentPostUuid } : {}),
       lat: data.coords.lat,
       lng: data.coords.lng,
-      alt: data.coords.alt || null,
     }, {
       onError: (error) => {
         console.error(error)
