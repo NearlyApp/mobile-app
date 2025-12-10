@@ -6,11 +6,13 @@ import useSignOut from '@hooks/auth/useSignOut';
 import useUser from '@hooks/users/useUser';
 import { View } from 'react-native';
 
-const Header: React.FC<{ uuid: string }> = ({ uuid }) => {
+const Header: React.FC<{ uuid: string; isPersonalProfile: boolean }> = ({
+  uuid,
+  isPersonalProfile = false,
+}) => {
   const { data: user, isFetched } = useUser(uuid);
   const signOut = useSignOut();
 
-  
   function handleSignOut() {
     signOut.mutate();
   }
@@ -42,9 +44,11 @@ const Header: React.FC<{ uuid: string }> = ({ uuid }) => {
             <Skeleton className="h-label-md w-1/2" />
           )}
         </View>
-        <Button onPress={handleSignOut} className='w-32 h-auto'>
-          <Text>Sign Out</Text>
-        </Button>
+        {isPersonalProfile && (
+          <Button onPress={handleSignOut} className="h-auto w-32">
+            <Text>Sign Out</Text>
+          </Button>
+        )}
       </View>
     </View>
   );

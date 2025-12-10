@@ -1,7 +1,9 @@
+import ROUTES from '@constants/routes';
+import useCurrentUser from '@hooks/users/useCurrentUser';
 import useUser from '@hooks/users/useUser';
 import { Post } from '@nearlyapp/common';
+import { useNavigation } from '@react-navigation/native';
 import { Heart, MessageCircle, Share2 } from 'lucide-react-native';
-import { useState } from 'react';
 import { Share, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar, AvatarFallback, AvatarImage } from './avatar';
 
@@ -18,17 +20,32 @@ const timeAgo = (date: string | Date) => {
 
 const PostHeader = ({ uuid, createdAt }: { uuid: string; createdAt: Date }) => {
   const { data: user } = useUser(uuid);
+  const { data: currentUser } = useCurrentUser();
+  const navigation = useNavigation();
+
+  const handleProfilePress = () => {
+    const isCurrentUser = currentUser?.uuid === uuid;
+    if (isCurrentUser) {
+      navigation.navigate(ROUTES.profile() as never);
+    } else {
+      navigation.navigate(ROUTES.user() as never, { uuid } as never);
+    }
+  };
 
   return (
     <View className="mb-2 flex flex-row items-center justify-between px-4">
       <View className="flex flex-row items-center gap-3">
-        <Avatar size="sm" alt="User Avatar">
-          <AvatarImage src={user?.avatarUrl || undefined} />
-          <AvatarFallback />
-        </Avatar>
+        <TouchableOpacity onPress={handleProfilePress}>
+          <Avatar size="sm" alt="User Avatar">
+            <AvatarImage src={user?.avatarUrl || undefined} />
+            <AvatarFallback />
+          </Avatar>
+        </TouchableOpacity>
 
         <View className="flex flex-row items-center gap-3">
-          <Text className="font-bold">{user?.username}</Text>
+          <TouchableOpacity onPress={handleProfilePress}>
+            <Text className="font-bold">{user?.username}</Text>
+          </TouchableOpacity>
           <Text className="text-xs text-muted-foreground">
             {new Date(createdAt).toLocaleDateString()}
           </Text>
@@ -71,12 +88,6 @@ interface PostProps {
 }
 
 const PostCard = ({ post }: PostProps) => {
-  const [showMore, setShowMore] = useState(false);
-
-  const descriptionPreview =
-    post.content.split(' ').slice(0, 12).join(' ') +
-    (post.content.split(' ').length > 12 ? '...' : '');
-
   const handleShare = async () => {
     await Share.share({
       //   message: `https://nearly.app/posts/${post.uuid}`,

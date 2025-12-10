@@ -25,7 +25,7 @@ const ProfileView: React.FC<Props> = ({ uuid, isPersonalProfile = false }) => {
           />
         }
       >
-        <Header uuid={uuid} />
+        <Header uuid={uuid} isPersonalProfile={isPersonalProfile} />
         <ProfilePosts uuid={uuid} />
       </ScrollView>
     </SafeAreaView>
