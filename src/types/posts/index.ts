@@ -20,3 +20,10 @@ export type CreatePostDto = {
 };
 
 export type CreatePostResponse = unknown;
+
+export type FetchRecommendedPostsQueryParams = {
+  lat: Latitude;
+  lng: Longitude;
+};
+
+export type FetchRecommendedPostsResponse = Post[];

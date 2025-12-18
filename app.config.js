@@ -26,6 +26,16 @@ export default ({ config }) => ({
       backgroundColor: '#ffffff',
     },
     edgeToEdgeEnabled: true,
+    permissions: [
+      'INTERNET',
+      'ACCESS_NETWORK_STATE',
+      'ACCESS_WIFI_STATE',
+      'ACCESS_FINE_LOCATION',
+      'ACCESS_COARSE_LOCATION',
+    ],
+    usesCleartextTraffic: true,
+    networkSecurityConfig:
+      './android/app/src/main/res/xml/network_security_config.xml',
     intentFilters: [
       {
         action: 'VIEW',
@@ -44,7 +54,7 @@ export default ({ config }) => ({
     ],
   },
   extra: {
-    apiBaseUrl: process.env.API_BASE_URL,
+    apiBaseUrl: process.env.API_BASE_URL || 'http://65.108.41.124:3000/',
     router: {
       origin: false,
     },

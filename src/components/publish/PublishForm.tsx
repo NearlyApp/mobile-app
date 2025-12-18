@@ -66,19 +66,22 @@ const PublishForm: React.FC<IProps> = ({ onSubmitButtonReady }) => {
       lat: data.coords.lat,
       lng: data.coords.lng,
     });
-    mutate({
-      content: data.content,
-      ...(data.parentPostUuid ? { parentPostUuid: data.parentPostUuid } : {}),
-      lat: data.coords.lat,
-      lng: data.coords.lng,
-    }, {
-      onError: (error) => {
-        console.error(error)
+    mutate(
+      {
+        content: data.content,
+        ...(data.parentPostUuid ? { parentPostUuid: data.parentPostUuid } : {}),
+        lat: data.coords.lat,
+        lng: data.coords.lng,
       },
-      onSuccess: (data) => {
-        console.log('Post created successfully:', data);
-      }
-    });
+      {
+        onError: (error) => {
+          console.error(error);
+        },
+        onSuccess: (data) => {
+          console.log('Post created successfully:', data);
+        },
+      },
+    );
   };
 
   useEffect(() => {
@@ -125,6 +128,12 @@ const PublishForm: React.FC<IProps> = ({ onSubmitButtonReady }) => {
               placeholder="What would you like to share?"
               editable={!isCreatingPost}
             />
+            {(!location || locationError) && (
+              <Text className="mt-2 text-sm text-yellow-600">
+                ⚠️ La localisation n'est pas disponible. Veuillez activer la
+                géolocalisation pour publier un post.
+              </Text>
+            )}
             <FormMessage />
           </FormItem>
         )}

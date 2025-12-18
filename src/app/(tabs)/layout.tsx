@@ -2,12 +2,11 @@ import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import ROUTES from '@constants/routes';
 import useCurrentUser from '@hooks/users/useCurrentUser';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home, PlusCircle, Search, User } from 'lucide-react-native';
+import { Home, PlusCircle, User } from 'lucide-react-native';
 import React, { useMemo } from 'react';
 
 // Import page components and layouts
 import AuthLayout from '@app/(tabs)/auth/layout';
-import DiscoverPage from '@app/(tabs)/discover';
 import HomePage from '@app/(tabs)/home';
 import ProfileLayout from '@app/(tabs)/profile/layout';
 
@@ -88,13 +87,13 @@ const TabsLayout: NavScreen = () => {
           tabBarIcon: ({ size, color }) => <Home size={size} color={color} />,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name={ROUTES.discover()}
         component={DiscoverPage}
         options={{
           tabBarIcon: ({ size, color }) => <Search size={size} color={color} />,
         }}
-      />
+      /> */}
       {publicScreens}
       {restrictedScreens}
     </Tab.Navigator>
