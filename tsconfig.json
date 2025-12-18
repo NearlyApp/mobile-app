@@ -4,6 +4,7 @@
     "strict": true,
     "baseUrl": ".",
     "resolveJsonModule": true,
+    "types": ["jest", "node"],
     "paths": {
       "@assets/*": ["assets/*"],
       "@app/*": ["src/app/*"],
