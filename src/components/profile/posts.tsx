@@ -10,18 +10,11 @@ import { View } from 'react-native';
 interface IProps {
   uuid: string;
   className?: string;
-  onRefetch: () => void;
 }
 
-const ProfilePosts: React.FC<IProps> = ({ uuid, className, onRefetch }) => {
+const ProfilePosts: React.FC<IProps> = ({ uuid, className }) => {
   const { data: user } = useUser(uuid);
-  const {
-    data: posts,
-    isFetched,
-    isError,
-    error,
-    refetch,
-  } = useUserPosts(uuid);
+  const { data: posts, isFetched, isError, error } = useUserPosts(uuid);
 
   const minimalUser: Nullable<MinimalUser> = useMemo(() => {
     if (!user) return null;

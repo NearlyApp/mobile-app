@@ -1,12 +1,11 @@
-import PostCard from '@components/ui/Post';
-import TabHeader from '@components/ui/TabHeader';
+import PostCard from '@components/posts/post-card';
+import Spinner from '@components/ui/loading/spinner';
 import { Text } from '@components/ui/text';
 import useLocation from '@hooks/location/useLocation';
 import { useRecommendedPosts } from '@modules/posts/posts.hooks';
 import { FetchRecommendedPostsQueryParams } from '@modules/posts/posts.types';
-import React, { Fragment, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HomePage: NavScreen = () => {
   const {
@@ -28,8 +27,9 @@ const HomePage: NavScreen = () => {
 
   const {
     data: posts,
-    isLoading,
+    isFetched,
     isFetching,
+    isLoading,
     isError,
     error,
     refetch,
@@ -40,47 +40,53 @@ const HomePage: NavScreen = () => {
     refetch();
   };
 
+  if (isError)
+    <View className="flex flex-1 flex-col items-center justify-center gap-4 p-4">
+      <Text className="-translate-y-1/2">
+        {error?.message || 'Oops! Something went wrong.'}
+      </Text>
+    </View>;
+
+  if (isFetched)
+    return (
+      <ScrollView
+        className="flex flex-1 flex-col"
+        refreshControl={
+          <RefreshControl
+            refreshing={isFetching && !isLoading}
+            onRefresh={handleRefresh}
+          />
+        }
+      >
+        <View className="flex flex-col items-stretch gap-4 p-4">
+          {posts?.map((post) => (
+            <PostCard
+              key={post.uuid}
+              post={{
+                ...post,
+                author: {
+                  avatarUrl: null,
+                  displayName: 'test',
+                  username: 'test',
+                  uuid: 'test',
+                },
+              }}
+            />
+          ))}
+        </View>
+      </ScrollView>
+    );
+
   return (
-    <Fragment>
-      <SafeAreaView edges={['top']} />
-      <TabHeader title="Home" />
-      <View className="flex flex-1 bg-white">
-        {locationError || (!location && !isLoading) ? (
-          <View className="p-4">
-            <Text className="mb-2 text-sm text-yellow-600">
-              ⚠️ Impossible d'accéder à votre localisation
-            </Text>
-            <Text className="text-xs text-neutral-600">
-              Veuillez activer la géolocalisation pour voir les posts
-              recommandés près de vous.
-            </Text>
-          </View>
-        ) : isError ? (
-          <Text className="p-4 text-red-600">{error.message}</Text>
-        ) : !!posts ? (
-          <ScrollView
-            className="p-4"
-            refreshControl={
-              <RefreshControl
-                refreshing={isFetching && !isLoading}
-                onRefresh={handleRefresh}
-              />
-            }
-          >
-            {posts.map((post, index) => (
-              <PostCard key={index} post={post} />
-            ))}
-          </ScrollView>
-        ) : (
-          <View className="flex-1 items-center justify-center p-4">
-            <Text className="text-neutral-500">
-              Chargement des posts recommandés...
-            </Text>
-          </View>
-        )}
-      </View>
-    </Fragment>
+    <View className="flex flex-1 flex-col items-center justify-center gap-4 p-4">
+      <Spinner className="-translate-y-1/2" size="md" />
+    </View>
   );
+};
+
+HomePage.options = {
+  headerTitle: 'Home',
+  headerShown: true,
 };
 
 export default HomePage;

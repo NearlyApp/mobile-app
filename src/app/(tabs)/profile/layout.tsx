@@ -27,7 +27,9 @@ const ProfileLayout: NavScreen = ({ route }) => {
         <View className="w-fit -translate-y-1/2">
           <Text>{error?.message || 'Oops! Something went wrong.'}</Text>
           {error?.status !== 404 && (
-            <Button onPress={() => refetch()}>Retry</Button>
+            <Button onPress={() => refetch()}>
+              <Text>Retry</Text>
+            </Button>
           )}
         </View>
       </SafeAreaView>

@@ -1,6 +1,7 @@
 import Header from '@components/profile/header';
 import ProfilePosts from '@components/profile/posts';
-import { useUser } from '@modules/users/users.hooks';
+import { USERS_QUERY_KEYS, useUser } from '@modules/users/users.hooks';
+import { useQueryClient } from '@tanstack/react-query';
 import { useCallback } from 'react';
 import { RefreshControl, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,11 +9,26 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const ProfilePage: NavScreen = ({ route }) => {
   const { uuid } = route.params;
 
-  const { data: user, isLoading, isFetching, refetch } = useUser(uuid);
+  const queryClient = useQueryClient();
+  const {
+    data: user,
+    isLoading,
+    isFetching,
+    refetch,
+    isFetched,
+  } = useUser(uuid);
 
   const handleRefresh = useCallback(() => {
     refetch();
-  }, [refetch]);
+    queryClient.invalidateQueries({
+      queryKey: USERS_QUERY_KEYS.user(uuid),
+    });
+    queryClient.invalidateQueries({
+      queryKey: USERS_QUERY_KEYS.userPosts(uuid),
+    });
+  }, [refetch, queryClient]);
+
+  if (!isFetched && !user) return null;
 
   return (
     <SafeAreaView className="flex-1" edges={['top']}>
@@ -26,11 +42,7 @@ const ProfilePage: NavScreen = ({ route }) => {
         }
       >
         <Header uuid={uuid} />
-        <ProfilePosts
-          uuid={uuid}
-          className="flex-1"
-          onRefetch={handleRefresh}
-        />
+        <ProfilePosts uuid={uuid} className="flex-1" />
       </ScrollView>
     </SafeAreaView>
   );

@@ -4,7 +4,6 @@ import * as Api from './posts.api';
 import * as Types from './posts.types';
 
 const QUERY_KEYS = {
-  postsByAuthorUuid: (authorUuid: string) => ['posts', 'author', authorUuid],
   recommendedPosts: (params?: Types.FetchRecommendedPostsQueryParams) => [
     'posts',
     'recommended',

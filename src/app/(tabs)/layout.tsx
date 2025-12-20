@@ -85,6 +85,7 @@ const TabsLayout: NavScreen = () => {
         component={HomePage}
         options={{
           tabBarIcon: ({ size, color }) => <Home size={size} color={color} />,
+          ...HomePage.options,
         }}
       />
       {/* <Tab.Screen
