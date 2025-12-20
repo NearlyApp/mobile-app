@@ -23,32 +23,16 @@ export const useCreatePost = () =>
     mutationFn: Api.createPost,
   });
 
-export const usePostsByAuthorUuid = (
-  authorUuid: string,
-  options?: UseQueryOptions<
-    Types.FetchPostsByAuthorUuidResponse,
-    RequesterError,
-    Types.FetchPostsByAuthorUuidResponse['posts']
-  >,
-) =>
-  useQuery<
-    Types.FetchPostsByAuthorUuidResponse,
-    RequesterError,
-    Types.FetchPostsByAuthorUuidResponse['posts']
-  >({
-    queryKey: QUERY_KEYS.postsByAuthorUuid(authorUuid),
-    queryFn: () => Api.fetchPostsByAuthorUuid(authorUuid),
-    select: (data) => data.posts,
-    ...(options ?? {}),
-  });
-
 export const useRecommendedPosts = (
   params?: Types.FetchRecommendedPostsQueryParams,
-  options?: UseQueryOptions<
-    Types.FetchRecommendedPostsResponse,
-    RequesterError,
-    Types.FetchRecommendedPostsResponse['posts']
-  >,
+  options: Omit<
+    UseQueryOptions<
+      Types.FetchRecommendedPostsResponse,
+      RequesterError,
+      Types.FetchRecommendedPostsResponse['posts']
+    >,
+    'queryKey' | 'queryFn'
+  > = {},
 ) =>
   useQuery<
     Types.FetchRecommendedPostsResponse,
@@ -59,7 +43,7 @@ export const useRecommendedPosts = (
     queryFn: () => Api.fetchRecommendedPosts(params!),
     enabled: !!params?.lat && !!params?.lng,
     select: (data) => data.posts,
-    ...(options ?? {}),
+    ...options,
   });
 
 export { MUTATION_KEYS as POSTS_MUTATION_KEYS, QUERY_KEYS as POSTS_QUERY_KEYS };

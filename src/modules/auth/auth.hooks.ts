@@ -2,7 +2,7 @@ import getQueryClient from '@lib/getQueryClient';
 import RequesterError from '@lib/requester/RequesterError';
 import { POSTS_QUERY_KEYS } from '@modules/posts/posts.hooks';
 import { USERS_QUERY_KEYS } from '@modules/users/users.hooks';
-import { User } from '@nearlyapp/common';
+import { PrivateUser } from '@nearlyapp/common';
 import { useMutation } from '@tanstack/react-query';
 import * as Api from './auth.api';
 import * as Types from './auth.types';
@@ -37,7 +37,7 @@ export const useSignOut = () =>
     },
   });
 
-const successMutationHandler = (user: User) => {
+const successMutationHandler = (user: PrivateUser) => {
   const queryClient = getQueryClient();
 
   // Update current user data

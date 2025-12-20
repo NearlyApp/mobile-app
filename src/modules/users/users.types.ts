@@ -1,10 +1,18 @@
-import { User } from '@nearlyapp/common';
+import { Post, PrivateUser, PublicUser } from '@nearlyapp/common';
 
-export type FetchMeResponse = User;
+export type FetchMeResponse = PrivateUser;
 
-export type FetchUserResponse = User;
+export type FetchUserResponse = PublicUser;
 
-export type FetchUsersResponse = {
-  users: User[];
+export type FetchUserPostsQueryParams = {
+  page?: number;
+  limit?: number;
 };
 
+export type FetchUserPostsResponse = {
+  posts: Post[];
+};
+
+export type FetchUsersResponse = {
+  users: PublicUser[];
+};

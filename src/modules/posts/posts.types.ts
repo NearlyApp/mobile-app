@@ -2,15 +2,6 @@ import { Altitude, Latitude, Longitude, Post } from '@nearlyapp/common';
 
 export type FetchPostResponse = Post;
 
-export type FetchPostsByAuthorUuidQueryParams = {
-  page?: number;
-  limit?: number;
-};
-
-export type FetchPostsByAuthorUuidResponse = {
-  posts: Post<true>[];
-};
-
 export type CreatePostDto = {
   content: string;
   parentPostUuid?: string;
