@@ -1,4 +1,4 @@
-import FullScreenLoader from '@components/ui/loading/FullScreenLoader';
+import FullScreenLoader from '@components/ui/loading/full-screen-loader';
 import ROUTES from '@constants/routes';
 import { useCurrentUser } from '@modules/users/users.hooks';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';

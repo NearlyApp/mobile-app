@@ -1,5 +1,5 @@
-import RestrictedGuard from '@components/guards/RestrictedGuard';
-import PublishForm from '@components/publish/PublishForm';
+import RestrictedGuard from '@components/guards/restricted-guard';
+import PublishForm from '@components/publish/publish-form';
 import { Button } from '@components/ui/button';
 import { X } from 'lucide-react-native';
 import { useCallback, useLayoutEffect, useRef } from 'react';
@@ -11,7 +11,7 @@ const PublishPage: NavScreen = ({ navigation }) => {
   const updateNavigationOptions = useCallback(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <Button onPress={() => navigation.goBack()} variant="ghost">
+        <Button onPress={() => navigation.goBack()} variant="ghost" size="icon">
           <X />
         </Button>
       ),

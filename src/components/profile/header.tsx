@@ -6,14 +6,15 @@ import { cn } from '@lib/utils';
 import { useSignOut } from '@modules/auth/auth.hooks';
 import { useCurrentUser, useUser } from '@modules/users/users.hooks';
 import { useMemo } from 'react';
-import { View } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 
 interface IProps {
   uuid: string;
   className?: string;
+  style?: StyleProp<ViewStyle>;
 }
 
-const Header: React.FC<IProps> = ({ uuid, className }) => {
+const Header: React.FC<IProps> = ({ uuid, className, style }) => {
   const { data: user, isFetched } = useUser(uuid);
   const { data: authenticatedUser } = useCurrentUser();
   const signOut = useSignOut();
@@ -36,6 +37,7 @@ const Header: React.FC<IProps> = ({ uuid, className }) => {
         'flex flex-col gap-4 border-b border-border bg-background p-4',
         className,
       )}
+      style={style}
     >
       <View className="flex flex-row items-start gap-4">
         <Avatar size="4xl" alt="User Avatar">

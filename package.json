@@ -42,7 +42,6 @@
     "expo-status-bar": "~3.0.8",
     "i18next": "^25.3.2",
     "lucide-react-native": "^0.525.0",
-    "lucide-solid": "^0.562.0",
     "nativewind": "^4.1.23",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "react": "19.1.0",

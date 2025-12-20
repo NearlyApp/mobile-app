@@ -1,6 +1,6 @@
 import ProfilePage from '@app/(tabs)/profile';
 import { Button } from '@components/ui/button';
-import FullScreenLoader from '@components/ui/loading/FullScreenLoader';
+import FullScreenLoader from '@components/ui/loading/full-screen-loader';
 import ROUTES from '@constants/routes';
 import { useUser } from '@modules/users/users.hooks';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';

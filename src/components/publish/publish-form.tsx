@@ -5,12 +5,12 @@ import { Text } from '@components/ui/text';
 import { Textarea } from '@components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useCoordinatesValidation from '@hooks/location/useCoordinatesValidation';
-import useLocation from '@hooks/location/useLocation';
+import useLocation, { LocationError } from '@hooks/location/useLocation';
 import { useCreatePost } from '@modules/posts/posts.hooks';
 import { createPostSchema } from '@modules/posts/posts.schemas';
 import { useEffect, useLayoutEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Alert } from 'react-native';
+import { Alert, Pressable } from 'react-native';
 import z from 'zod';
 
 interface IProps {
@@ -20,7 +20,14 @@ interface IProps {
 type FormValues = z.infer<typeof createPostSchema>;
 
 const PublishForm: React.FC<IProps> = ({ onSubmitButtonReady }) => {
-  const { data: location, error: locationError, refetch } = useLocation();
+  const {
+    data: location,
+    error: locationError,
+    refetch,
+    permissionStatus,
+    requestPermissionAndRefetch,
+    openSettings,
+  } = useLocation();
   const { mutate, isPending: isCreatingPost } = useCreatePost();
   const { validateCoordinates, getCoordinatesErrorMessage } =
     useCoordinatesValidation();
@@ -100,16 +107,25 @@ const PublishForm: React.FC<IProps> = ({ onSubmitButtonReady }) => {
 
   useEffect(() => {
     if (locationError) {
-      Alert.alert(
-        'Geolocation Error',
-        'Unable to retrieve your position. Please check that geolocation is enabled.',
-        [
-          { text: 'Retry', onPress: () => refetch() },
-          { text: 'OK', style: 'cancel' },
-        ],
-      );
+      const error = locationError as LocationError;
+      const needsSettings =
+        permissionStatus === 'denied_permanently' || error?.shouldOpenSettings;
+
+      const message =
+        error?.code === 'services_disabled'
+          ? 'Les services de localisation sont désactivés sur votre appareil.'
+          : error?.code === 'permission_denied_permanently'
+            ? "L'accès à la localisation a été refusé. Veuillez l'activer dans les paramètres."
+            : 'Impossible de récupérer votre position. Veuillez vérifier que la géolocalisation est activée.';
+
+      Alert.alert('Erreur de géolocalisation', message, [
+        needsSettings
+          ? { text: 'Ouvrir les paramètres', onPress: openSettings }
+          : { text: 'Réessayer', onPress: requestPermissionAndRefetch },
+        { text: 'OK', style: 'cancel' },
+      ]);
     }
-  }, [locationError, refetch]);
+  }, [locationError, permissionStatus, requestPermissionAndRefetch, openSettings]);
 
   return (
     <Form {...form}>
@@ -129,10 +145,22 @@ const PublishForm: React.FC<IProps> = ({ onSubmitButtonReady }) => {
               editable={!isCreatingPost}
             />
             {(!location || locationError) && (
-              <Text className="mt-2 text-sm text-yellow-600">
-                ⚠️ La localisation n'est pas disponible. Veuillez activer la
-                géolocalisation pour publier un post.
-              </Text>
+              <Pressable
+                onPress={
+                  permissionStatus === 'denied_permanently'
+                    ? openSettings
+                    : requestPermissionAndRefetch
+                }
+              >
+                <Text className="mt-2 text-sm text-yellow-600">
+                  ⚠️ La localisation n'est pas disponible.{' '}
+                  <Text className="text-yellow-700 underline">
+                    {permissionStatus === 'denied_permanently'
+                      ? 'Ouvrir les paramètres'
+                      : 'Activer la géolocalisation'}
+                  </Text>
+                </Text>
+              </Pressable>
             )}
             <FormMessage />
           </FormItem>
