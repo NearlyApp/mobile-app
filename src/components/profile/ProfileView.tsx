@@ -1,5 +1,5 @@
 import Header from '@components/profile/Header';
-import useUser from '@hooks/users/useUser';
+import { useUser } from '@modules/users/users.hooks';
 import { useCallback, useRef } from 'react';
 import { RefreshControl, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';

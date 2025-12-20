@@ -2,8 +2,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { Button } from '@components/ui/button';
 import { Skeleton } from '@components/ui/skeleton';
 import { Text } from '@components/ui/text';
-import useSignOut from '@hooks/auth/useSignOut';
-import useUser from '@hooks/users/useUser';
+import { useSignOut } from '@modules/auth/auth.hooks';
+import { useUser } from '@modules/users/users.hooks';
 import { View } from 'react-native';
 
 const Header: React.FC<{ uuid: string; isPersonalProfile: boolean }> = ({
@@ -14,7 +14,11 @@ const Header: React.FC<{ uuid: string; isPersonalProfile: boolean }> = ({
   const signOut = useSignOut();
 
   function handleSignOut() {
-    signOut.mutate();
+    signOut.mutate(undefined, {
+      onSuccess: () => {
+        console.log('sign out success');
+      },
+    });
   }
 
   return (

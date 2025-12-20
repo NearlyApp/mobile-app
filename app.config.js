@@ -54,12 +54,12 @@ export default ({ config }) => ({
     ],
   },
   extra: {
-    apiBaseUrl: process.env.API_BASE_URL || 'http://65.108.41.124:3000/',
+    apiBaseUrl: process.env.API_BASE_URL,
     router: {
       origin: false,
     },
     eas: {
-      projectId: process.env.EXPO_PROJECT_ID,
+      projectId: '17a963ee-6c5c-4563-9b94-a81381d4c3fe',
     },
   },
   plugins: ['expo-secure-store'],

@@ -1,5 +1,5 @@
-import * as Types from '@/types/auth';
 import requester from '@lib/requester';
+import * as Types from './auth.types';
 
 const BASE_URL = '/auth';
 
@@ -10,3 +10,4 @@ export const signIn = async (data: Types.SignInDto) =>
   requester().post<Types.SignInResponse>(`${BASE_URL}/sign-in`, data);
 
 export const signOut = async () => requester().delete(`${BASE_URL}/sign-out`);
+

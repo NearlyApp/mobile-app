@@ -1,6 +1,5 @@
 import ROUTES from '@constants/routes';
-import useCurrentUser from '@hooks/users/useCurrentUser';
-import useUser from '@hooks/users/useUser';
+import { useCurrentUser, useUser } from '@modules/users/users.hooks';
 import { Post } from '@nearlyapp/common';
 import { useNavigation } from '@react-navigation/native';
 import { Heart, MessageCircle, Share2 } from 'lucide-react-native';

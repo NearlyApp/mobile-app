@@ -2,7 +2,8 @@ import PostCard from '@components/ui/Post';
 import TabHeader from '@components/ui/TabHeader';
 import { Text } from '@components/ui/text';
 import useLocation from '@hooks/location/useLocation';
-import useGetRecommendedPosts from '@hooks/posts/useGetRecommendedPosts';
+import { useRecommendedPosts } from '@modules/posts/posts.hooks';
+import { FetchRecommendedPostsQueryParams } from '@modules/posts/posts.types';
 import React, { Fragment, useMemo } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -14,15 +15,16 @@ const HomePage: NavScreen = () => {
     refetch: refetchLocation,
   } = useLocation();
 
-  const queryParams = useMemo(() => {
-    if (location?.coords) {
-      return {
-        lat: location.coords.lat,
-        lng: location.coords.lng,
-      };
-    }
-    return undefined;
-  }, [location]);
+  const queryParams: Optional<FetchRecommendedPostsQueryParams> =
+    useMemo(() => {
+      if (location?.coords) {
+        return {
+          lat: location.coords.lat,
+          lng: location.coords.lng,
+        };
+      }
+      return undefined;
+    }, [location]);
 
   const {
     data: posts,
@@ -31,7 +33,7 @@ const HomePage: NavScreen = () => {
     isError,
     error,
     refetch,
-  } = useGetRecommendedPosts(queryParams);
+  } = useRecommendedPosts(queryParams);
 
   const handleRefresh = () => {
     refetchLocation();

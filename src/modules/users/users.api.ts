@@ -1,5 +1,5 @@
-import * as Types from '@/types/users';
 import requester from '@lib/requester';
+import * as Types from './users.types';
 
 const BASE_URL = '/users';
 
@@ -11,3 +11,4 @@ export const fetchUser = async (uuid: string) =>
 
 export const fetchUsers = async () =>
   requester().get<Types.FetchUsersResponse>(BASE_URL);
+

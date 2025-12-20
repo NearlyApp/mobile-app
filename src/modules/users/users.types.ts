@@ -7,3 +7,4 @@ export type FetchUserResponse = User;
 export type FetchUsersResponse = {
   users: User[];
 };
+

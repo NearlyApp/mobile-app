@@ -19,3 +19,4 @@ export const createPostSchema = z.object({
     alt: z.number().nullable().optional(),
   }),
 });
+

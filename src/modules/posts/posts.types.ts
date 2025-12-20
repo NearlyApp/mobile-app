@@ -2,13 +2,13 @@ import { Altitude, Latitude, Longitude, Post } from '@nearlyapp/common';
 
 export type FetchPostResponse = Post;
 
-export type FetchPostsQueryParams = {
+export type FetchPostsByAuthorUuidQueryParams = {
   page?: number;
   limit?: number;
 };
 
-export type FetchPostsResponse = {
-  posts: Post[];
+export type FetchPostsByAuthorUuidResponse = {
+  posts: Post<true>[];
 };
 
 export type CreatePostDto = {
@@ -26,4 +26,6 @@ export type FetchRecommendedPostsQueryParams = {
   lng: Longitude;
 };
 
-export type FetchRecommendedPostsResponse = Post[];
+export type FetchRecommendedPostsResponse = {
+  posts: Post[];
+};

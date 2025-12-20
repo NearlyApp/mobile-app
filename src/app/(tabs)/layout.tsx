@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import ROUTES from '@constants/routes';
-import useCurrentUser from '@hooks/users/useCurrentUser';
+import { useCurrentUser } from '@modules/users/users.hooks';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home, PlusCircle, User } from 'lucide-react-native';
 import React, { useMemo } from 'react';
