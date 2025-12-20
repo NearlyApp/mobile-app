@@ -10,8 +10,8 @@ import {
 import { Input } from '@components/ui/input';
 import { Text } from '@components/ui/text';
 import { zodResolver } from '@hookform/resolvers/zod';
-import useSignUp from '@hooks/auth/useSignUp';
-import { signUpSchema } from '@schemas/auth';
+import { useSignUp } from '@modules/auth/auth.hooks';
+import { signUpSchema } from '@modules/auth/auth.schemas';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 

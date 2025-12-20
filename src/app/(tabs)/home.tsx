@@ -1,46 +1,92 @@
-import PostCard from '@components/ui/Post';
-import TabHeader from '@components/ui/TabHeader';
+import PostCard from '@components/posts/post-card';
+import Spinner from '@components/ui/loading/spinner';
 import { Text } from '@components/ui/text';
-import useGetRecommendedPosts from '@hooks/posts/useGetRecommendedPosts';
-import React, { Fragment } from 'react';
+import useLocation from '@hooks/location/useLocation';
+import { useRecommendedPosts } from '@modules/posts/posts.hooks';
+import { FetchRecommendedPostsQueryParams } from '@modules/posts/posts.types';
+import React, { useMemo } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HomePage: NavScreen = () => {
   const {
+    data: location,
+    error: locationError,
+    refetch: refetchLocation,
+  } = useLocation();
+
+  const queryParams: Optional<FetchRecommendedPostsQueryParams> =
+    useMemo(() => {
+      if (location?.coords) {
+        return {
+          lat: location.coords.lat,
+          lng: location.coords.lng,
+        };
+      }
+      return undefined;
+    }, [location]);
+
+  const {
     data: posts,
-    isLoading,
+    isFetched,
     isFetching,
+    isLoading,
     isError,
     error,
     refetch,
-  } = useGetRecommendedPosts();
+  } = useRecommendedPosts(queryParams);
+
+  const handleRefresh = () => {
+    refetchLocation();
+    refetch();
+  };
+
+  if (isError)
+    <View className="flex flex-1 flex-col items-center justify-center gap-4 p-4">
+      <Text className="-translate-y-1/2">
+        {error?.message || 'Oops! Something went wrong.'}
+      </Text>
+    </View>;
+
+  if (isFetched)
+    return (
+      <ScrollView
+        className="flex flex-1 flex-col"
+        refreshControl={
+          <RefreshControl
+            refreshing={isFetching && !isLoading}
+            onRefresh={handleRefresh}
+          />
+        }
+      >
+        <View className="flex flex-col items-stretch gap-4 p-4">
+          {posts?.map((post) => (
+            <PostCard
+              key={post.uuid}
+              post={{
+                ...post,
+                author: {
+                  avatarUrl: null,
+                  displayName: 'test',
+                  username: 'test',
+                  uuid: 'test',
+                },
+              }}
+            />
+          ))}
+        </View>
+      </ScrollView>
+    );
 
   return (
-    <Fragment>
-      <SafeAreaView edges={['top']} />
-      <TabHeader title="Home" />
-      <View className="flex flex-1 bg-white">
-        {isError ? (
-          <Text>{error.message}</Text>
-        ) : !!posts ? (
-          <ScrollView
-            className="p-4"
-            refreshControl={
-              <RefreshControl
-                refreshing={isFetching && !isLoading}
-                onRefresh={refetch}
-              />
-            }
-          >
-            {posts.map((post, index) => (
-              <PostCard key={index} post={post} />
-            ))}
-          </ScrollView>
-        ) : null}
-      </View>
-    </Fragment>
+    <View className="flex flex-1 flex-col items-center justify-center gap-4 p-4">
+      <Spinner className="-translate-y-1/2" size="md" />
+    </View>
   );
+};
+
+HomePage.options = {
+  headerTitle: 'Home',
+  headerShown: true,
 };
 
 export default HomePage;

@@ -1,6 +1,6 @@
 import SignInPage from '@app/(tabs)/auth/sign-in';
 import SignUpPage from '@app/(tabs)/auth/sign-up';
-import GuestGuard from '@components/guards/GuestGuard';
+import GuestGuard from '@components/guards/guest-guard';
 import ROUTES from '@constants/routes';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';

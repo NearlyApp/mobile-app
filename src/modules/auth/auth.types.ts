@@ -1,6 +1,6 @@
-import { User } from '@nearlyapp/common';
-import { signUpSchema } from '@schemas/auth';
+import { PrivateUser } from '@nearlyapp/common';
 import z from 'zod';
+import { signUpSchema } from './auth.schemas';
 
 export type SignInDto = {
   login: string;
@@ -8,8 +8,8 @@ export type SignInDto = {
   rememberMe?: boolean;
 };
 
-export type SignInResponse = User;
+export type SignInResponse = PrivateUser;
 
 export type SignUpDto = Omit<z.infer<typeof signUpSchema>, 'confirmPassword'>;
 
-export type SignUpResponse = User;
+export type SignUpResponse = PrivateUser;

@@ -11,8 +11,8 @@ import {
 import { Input } from '@components/ui/input';
 import { Text } from '@components/ui/text';
 import { zodResolver } from '@hookform/resolvers/zod';
-import useSignIn from '@hooks/auth/useSignIn';
-import { signInSchema } from '@schemas/auth';
+import { useSignIn } from '@modules/auth/auth.hooks';
+import { signInSchema } from '@modules/auth/auth.schemas';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { View } from 'react-native';

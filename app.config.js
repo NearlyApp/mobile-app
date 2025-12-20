@@ -26,6 +26,16 @@ export default ({ config }) => ({
       backgroundColor: '#ffffff',
     },
     edgeToEdgeEnabled: true,
+    permissions: [
+      'INTERNET',
+      'ACCESS_NETWORK_STATE',
+      'ACCESS_WIFI_STATE',
+      'ACCESS_FINE_LOCATION',
+      'ACCESS_COARSE_LOCATION',
+    ],
+    usesCleartextTraffic: true,
+    networkSecurityConfig:
+      './android/app/src/main/res/xml/network_security_config.xml',
     intentFilters: [
       {
         action: 'VIEW',
@@ -49,7 +59,7 @@ export default ({ config }) => ({
       origin: false,
     },
     eas: {
-      projectId: process.env.EXPO_PROJECT_ID,
+      projectId: '17a963ee-6c5c-4563-9b94-a81381d4c3fe',
     },
   },
   plugins: ['expo-secure-store'],

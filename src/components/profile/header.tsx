@@ -2,23 +2,43 @@ import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { Button } from '@components/ui/button';
 import { Skeleton } from '@components/ui/skeleton';
 import { Text } from '@components/ui/text';
-import useSignOut from '@hooks/auth/useSignOut';
-import useUser from '@hooks/users/useUser';
-import { View } from 'react-native';
+import { cn } from '@lib/utils';
+import { useSignOut } from '@modules/auth/auth.hooks';
+import { useCurrentUser, useUser } from '@modules/users/users.hooks';
+import { useMemo } from 'react';
+import { StyleProp, View, ViewStyle } from 'react-native';
 
-const Header: React.FC<{ uuid: string; isPersonalProfile: boolean }> = ({
-  uuid,
-  isPersonalProfile = false,
-}) => {
+interface IProps {
+  uuid: string;
+  className?: string;
+  style?: StyleProp<ViewStyle>;
+}
+
+const Header: React.FC<IProps> = ({ uuid, className, style }) => {
   const { data: user, isFetched } = useUser(uuid);
+  const { data: authenticatedUser } = useCurrentUser();
   const signOut = useSignOut();
 
+  const isPersonalProfile = useMemo(() => {
+    return uuid === authenticatedUser?.uuid;
+  }, [uuid, authenticatedUser]);
+
   function handleSignOut() {
-    signOut.mutate();
+    signOut.mutate(undefined, {
+      onSuccess: () => {
+        console.log('sign out success');
+      },
+    });
   }
 
   return (
-    <View className="flex flex-col gap-4 p-4">
+    <View
+      className={cn(
+        'flex flex-col gap-4 border-b border-border bg-background p-4',
+        className,
+      )}
+      style={style}
+    >
       <View className="flex flex-row items-start gap-4">
         <Avatar size="4xl" alt="User Avatar">
           <AvatarImage src={user?.avatarUrl || undefined} />

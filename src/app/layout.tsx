@@ -2,7 +2,6 @@ import '@styles/global.css';
 
 import TabsLayout from '@app/(tabs)/layout';
 import PublishPage from '@app/publish';
-import UserProfilePage from '@app/user';
 import ReactQueryProvider from '@components/ReactQueryProvider';
 import ROUTES from '@constants/routes';
 import { NAV_THEME } from '@constants/theme';
@@ -64,11 +63,6 @@ const RootLayout: React.FC = () => {
                 name={ROUTES.publish()}
                 component={PublishPage}
                 options={PublishPage.options}
-              />
-              <RootStack.Screen
-                name={ROUTES.user()}
-                component={UserProfilePage}
-                options={UserProfilePage.options}
               />
             </RootStack.Navigator>
           </NavigationContainer>
