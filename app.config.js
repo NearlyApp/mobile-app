@@ -34,24 +34,6 @@ export default ({ config }) => ({
       'ACCESS_COARSE_LOCATION',
     ],
     usesCleartextTraffic: true,
-    networkSecurityConfig:
-      './android/app/src/main/res/xml/network_security_config.xml',
-    intentFilters: [
-      {
-        action: 'VIEW',
-        autoVerify: true,
-        data: [
-          {
-            scheme: 'https',
-            host: 'nearby.app',
-          },
-          {
-            scheme: 'nearby',
-          },
-        ],
-        category: ['BROWSABLE', 'DEFAULT'],
-      },
-    ],
   },
   extra: {
     apiBaseUrl: process.env.API_BASE_URL,
@@ -62,5 +44,5 @@ export default ({ config }) => ({
       projectId: '17a963ee-6c5c-4563-9b94-a81381d4c3fe',
     },
   },
-  plugins: ['expo-secure-store'],
+  plugins: ['./plugins/withNetworkSecurityConfig'],
 });
