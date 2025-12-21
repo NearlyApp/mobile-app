@@ -2,6 +2,14 @@
   "general": {
     "loading": "Loading..."
   },
+  "health": {
+    "checking": "Connecting to server...",
+    "error": {
+      "title": "Connection Error",
+      "message": "Unable to connect to the server. Please check your internet connection and try again.",
+      "retry": "Retry"
+    }
+  },
   "auth": {
     "signUp": {
       "title": "Sign Up to Nearby",

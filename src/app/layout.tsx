@@ -2,6 +2,7 @@ import '@styles/global.css';
 
 import TabsLayout from '@app/(tabs)/layout';
 import PublishPage from '@app/publish';
+import HealthGate from '@components/guards/health-gate';
 import ReactQueryProvider from '@components/ReactQueryProvider';
 import ROUTES from '@constants/routes';
 import { NAV_THEME } from '@constants/theme';
@@ -52,20 +53,22 @@ const RootLayout: React.FC = () => {
       <SafeAreaProvider>
         <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
           <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-          <NavigationContainer>
-            <RootStack.Navigator screenOptions={{ headerShown: false }}>
-              <RootStack.Screen
-                name={ROUTES.tabs()}
-                component={TabsLayout}
-                options={TabsLayout.options}
-              />
-              <RootStack.Screen
-                name={ROUTES.publish()}
-                component={PublishPage}
-                options={PublishPage.options}
-              />
-            </RootStack.Navigator>
-          </NavigationContainer>
+          <HealthGate>
+            <NavigationContainer>
+              <RootStack.Navigator screenOptions={{ headerShown: false }}>
+                <RootStack.Screen
+                  name={ROUTES.tabs()}
+                  component={TabsLayout}
+                  options={TabsLayout.options}
+                />
+                <RootStack.Screen
+                  name={ROUTES.publish()}
+                  component={PublishPage}
+                  options={PublishPage.options}
+                />
+              </RootStack.Navigator>
+            </NavigationContainer>
+          </HealthGate>
         </ThemeProvider>
       </SafeAreaProvider>
     </ReactQueryProvider>

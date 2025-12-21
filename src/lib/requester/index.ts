@@ -1,6 +1,8 @@
 import { ErrorData, Request, Requester } from '@/types/requester';
 import { API_BASE_URL } from '@constants/index';
+import getQueryClient from '@lib/getQueryClient';
 import RequesterError from '@lib/requester/RequesterError';
+import { HEALTH_QUERY_KEYS } from '@modules/health/health.hooks';
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -14,7 +16,7 @@ const client: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 60_000,
+  timeout: 10_000, // 10 seconds
 });
 
 client.interceptors.request.use((request: InternalAxiosRequestConfig) => {
@@ -28,6 +30,8 @@ client.interceptors.request.use((request: InternalAxiosRequestConfig) => {
 client.interceptors.response.use(
   async (response: AxiosResponse) => response,
   async (error: AxiosError) => {
+    const queryClient = getQueryClient();
+
     if (error.response) {
       throw new RequesterError({
         statusCode:
@@ -57,6 +61,9 @@ client.interceptors.response.use(
             statusCode: 503,
             error: 'Network Error',
             message: 'Network error – please check your internet connection',
+          });
+          queryClient.invalidateQueries({
+            queryKey: HEALTH_QUERY_KEYS.health(),
           });
           break;
         default:
