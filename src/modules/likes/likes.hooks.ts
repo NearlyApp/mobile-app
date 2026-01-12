@@ -1,3 +1,4 @@
+import getQueryClient from '@lib/getQueryClient';
 import RequesterError from '@lib/requester/RequesterError';
 import { useMutation } from '@tanstack/react-query';
 import * as Api from './likes.api';
@@ -24,6 +25,10 @@ export const useCreateLike = () =>
   >({
     mutationKey: MUTATIONS_KEYS.createLike(),
     mutationFn: Api.createLike,
+    onSuccess: () => {
+      const queryClient = getQueryClient();
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+    },
   });
 
 export const useDeleteLike = () =>
@@ -34,4 +39,8 @@ export const useDeleteLike = () =>
   >({
     mutationKey: MUTATIONS_KEYS.deleteLike(),
     mutationFn: Api.deleteLike,
+    onSuccess: () => {
+      const queryClient = getQueryClient();
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+    },
   });
