@@ -14,6 +14,11 @@ export interface LinkIconProps {
 
 const LikeIcon: FC<LinkIconProps> = ({ post }) => {
   const mutation = useCreateLike();
+
+  function handleLike() {
+    mutation.mutate({ postUuid: post.uuid, postAuthorUuid: post.authorUuid });
+  }
+
   if (post.likes.isLikedByUser) return <UnlikeIcon post={post} />;
 
   return (
@@ -22,7 +27,7 @@ const LikeIcon: FC<LinkIconProps> = ({ post }) => {
       variant="ghost"
       size="sm"
       disabled={mutation.isPending}
-      onPress={() => mutation.mutate({ postUuid: post.uuid })}
+      onPress={handleLike}
     >
       <Heart color={UNLIKED_ICON_COLOR} />
       <Text className="font-normal text-muted-foreground">
@@ -35,13 +40,17 @@ const LikeIcon: FC<LinkIconProps> = ({ post }) => {
 export const UnlikeIcon: FC<LinkIconProps> = ({ post }) => {
   const mutation = useDeleteLike();
 
+  function handleUnlike() {
+    mutation.mutate({ postUuid: post.uuid, postAuthorUuid: post.authorUuid });
+  }
+
   return (
     <Button
       className="flex flex-row gap-1"
       variant="ghost"
       size="sm"
       disabled={mutation.isPending}
-      onPress={() => mutation.mutate({ postUuid: post.uuid })}
+      onPress={handleUnlike}
     >
       <Heart color={LIKED_ICON_COLOR} fill={LIKED_ICON_COLOR} />
       <Text className="font-normal text-destructive">{post.likes.count}</Text>

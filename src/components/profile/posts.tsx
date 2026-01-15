@@ -45,8 +45,8 @@ const ProfilePosts: React.FC<IProps> = ({ uuid, className }) => {
       <View className={cn('flex flex-col items-stretch gap-4 p-4', className)}>
         {posts &&
           minimalUser &&
-          posts.map((post) => (
-            <PostCard key={post.uuid} post={{ ...post, author: minimalUser }} />
+          posts.map((post, index) => (
+            <PostCard key={index} post={{ ...post, author: minimalUser }} />
           ))}
       </View>
     );
