@@ -33,7 +33,10 @@ export const useSignOut = () =>
     mutationFn: Api.signOut,
     onSuccess: () => {
       const queryClient = getQueryClient();
-      queryClient.clear();
+      // Set current user to null to trigger UI update (bottom bar, etc.)
+      queryClient.setQueryData(USERS_QUERY_KEYS.currentUser(), null);
+      // Reset all queries to clear cached data
+      queryClient.resetQueries();
     },
   });
 
