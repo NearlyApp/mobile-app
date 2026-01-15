@@ -43,10 +43,8 @@ export const UnlikeIcon: FC<LinkIconProps> = ({ post }) => {
       disabled={mutation.isPending}
       onPress={() => mutation.mutate({ postUuid: post.uuid })}
     >
-      <Heart color={LIKED_ICON_COLOR} />
-      <Text className="font-normal text-muted-foreground">
-        {post.likes.count}
-      </Text>
+      <Heart color={LIKED_ICON_COLOR} fill={LIKED_ICON_COLOR} />
+      <Text className="font-normal text-destructive">{post.likes.count}</Text>
     </Button>
   );
 };

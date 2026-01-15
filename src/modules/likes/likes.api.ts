@@ -10,7 +10,7 @@ export const createLike = async (params: Types.CreateDeleteLikeQueryParams) =>
   );
 
 export const deleteLike = async (params: Types.CreateDeleteLikeQueryParams) =>
-  requester().post<Types.DeleteLikeResponse>(
+  requester().delete<Types.DeleteLikeResponse>(
     `${BASE_URL}/${params.postUuid}/`,
     { timeout: 15_000 },
   );
