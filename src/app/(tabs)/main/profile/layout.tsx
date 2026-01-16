@@ -1,4 +1,4 @@
-import ProfilePage from '@app/(tabs)/profile';
+import ProfilePage from '@app/(tabs)/main/profile';
 import { Button } from '@components/ui/button';
 import FullScreenLoader from '@components/ui/loading/full-screen-loader';
 import ROUTES from '@constants/routes';
