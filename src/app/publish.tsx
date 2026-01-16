@@ -36,7 +36,10 @@ const PublishPage: NavScreen = ({ navigation }) => {
   return (
     <RestrictedGuard navigation={navigation}>
       <SafeAreaView edges={['left', 'right', 'bottom']} className="flex-1 p-4">
-        <PublishForm onSubmitButtonReady={handleSubmitButtonReady} />
+        <PublishForm
+          onSubmitButtonReady={handleSubmitButtonReady}
+          navigation={navigation}
+        />
       </SafeAreaView>
     </RestrictedGuard>
   );

@@ -13,7 +13,7 @@ const GuestGuard: React.FC<IProps> = ({ children, navigation }) => {
   const { data: user, isLoading, isFetched } = useCurrentUser();
 
   useLayoutEffect(() => {
-    if (isFetched && user) navigation.navigate(ROUTES.profile());
+    if (isFetched && user) navigation.navigate(ROUTES.main.profile());
   }, [isFetched, user]);
 
   if (isLoading) return <FullScreenLoader />;

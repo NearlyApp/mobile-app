@@ -39,7 +39,7 @@ const ProfileLayout: NavScreen = ({ route }) => {
     return (
       <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
         <ProfileStack.Screen
-          name={ROUTES.profile()}
+          name={ROUTES.main.profile()}
           component={ProfilePage}
           initialParams={params}
         />

@@ -27,7 +27,9 @@ const PostCard: React.FC<IProps> = ({ post }) => {
         <View className="flex flex-row items-center gap-2">
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate(ROUTES.profile(), { uuid: post.author.uuid })
+              navigation.navigate(ROUTES.main.profile(), {
+                uuid: post.author.uuid,
+              })
             }
           >
             <Avatar size="sm" alt={`${post.author.displayName} avatar`}>

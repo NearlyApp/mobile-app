@@ -15,11 +15,12 @@ import z from 'zod';
 
 interface IProps {
   onSubmitButtonReady?: (button: React.ReactElement) => void;
+  navigation?: any;
 }
 
 type FormValues = z.infer<typeof createPostSchema>;
 
-const PublishForm: React.FC<IProps> = ({ onSubmitButtonReady }) => {
+const PublishForm: React.FC<IProps> = ({ onSubmitButtonReady, navigation }) => {
   const {
     data: location,
     error: locationError,
@@ -85,7 +86,7 @@ const PublishForm: React.FC<IProps> = ({ onSubmitButtonReady }) => {
           console.error(error);
         },
         onSuccess: (data) => {
-          console.log('Post created successfully:', data);
+          navigation?.goBack();
         },
       },
     );
@@ -125,7 +126,12 @@ const PublishForm: React.FC<IProps> = ({ onSubmitButtonReady }) => {
         { text: 'OK', style: 'cancel' },
       ]);
     }
-  }, [locationError, permissionStatus, requestPermissionAndRefetch, openSettings]);
+  }, [
+    locationError,
+    permissionStatus,
+    requestPermissionAndRefetch,
+    openSettings,
+  ]);
 
   return (
     <Form {...form}>

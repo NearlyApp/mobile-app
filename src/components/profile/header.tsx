@@ -5,6 +5,7 @@ import { Text } from '@components/ui/text';
 import { cn } from '@lib/utils';
 import { useSignOut } from '@modules/auth/auth.hooks';
 import { useCurrentUser, useUser } from '@modules/users/users.hooks';
+import { useNavigation } from '@react-navigation/native';
 import { useMemo } from 'react';
 import { StyleProp, View, ViewStyle } from 'react-native';
 
@@ -18,17 +19,16 @@ const Header: React.FC<IProps> = ({ uuid, className, style }) => {
   const { data: user, isFetched } = useUser(uuid);
   const { data: authenticatedUser } = useCurrentUser();
   const signOut = useSignOut();
+  const navigation = useNavigation<any>();
 
   const isPersonalProfile = useMemo(() => {
     return uuid === authenticatedUser?.uuid;
   }, [uuid, authenticatedUser]);
 
   function handleSignOut() {
-    signOut.mutate(undefined, {
-      onSuccess: () => {
-        console.log('sign out success');
-      },
-    });
+    // Navigate to home first to avoid crash when profile tab is removed
+    // navigation.navigate(ROUTES.home());
+    signOut.mutate();
   }
 
   return (

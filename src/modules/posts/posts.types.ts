@@ -15,6 +15,7 @@ export type CreatePostResponse = unknown;
 export type FetchRecommendedPostsQueryParams = {
   lat: Latitude;
   lng: Longitude;
+  withAuthor?: boolean;
 };
 
 export type FetchRecommendedPostsResponse = {

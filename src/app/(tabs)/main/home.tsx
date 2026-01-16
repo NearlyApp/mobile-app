@@ -4,6 +4,7 @@ import { Text } from '@components/ui/text';
 import useLocation from '@hooks/location/useLocation';
 import { useRecommendedPosts } from '@modules/posts/posts.hooks';
 import { FetchRecommendedPostsQueryParams } from '@modules/posts/posts.types';
+import { Post } from '@nearlyapp/common';
 import React, { useMemo } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 
@@ -20,6 +21,7 @@ const HomePage: NavScreen = () => {
         return {
           lat: location.coords.lat,
           lng: location.coords.lng,
+          withAuthor: true,
         };
       }
       return undefined;
@@ -39,6 +41,8 @@ const HomePage: NavScreen = () => {
     refetchLocation();
     refetch();
   };
+
+  console.debug('HomePage render', { location, posts, locationError });
 
   if (isError)
     <View className="flex flex-1 flex-col items-center justify-center gap-4 p-4">
@@ -60,18 +64,7 @@ const HomePage: NavScreen = () => {
       >
         <View className="flex flex-col items-stretch gap-4 p-4">
           {posts?.map((post) => (
-            <PostCard
-              key={post.uuid}
-              post={{
-                ...post,
-                author: {
-                  avatarUrl: null,
-                  displayName: 'test',
-                  username: 'test',
-                  uuid: 'test',
-                },
-              }}
-            />
+            <PostCard key={post.uuid} post={post as Post<true>} />
           ))}
         </View>
       </ScrollView>

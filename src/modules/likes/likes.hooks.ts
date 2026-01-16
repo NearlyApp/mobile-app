@@ -1,6 +1,5 @@
 import getQueryClient from '@lib/getQueryClient';
 import RequesterError from '@lib/requester/RequesterError';
-import { POSTS_QUERY_KEYS } from '@modules/posts/posts.hooks';
 import { USERS_QUERY_KEYS } from '@modules/users/users.hooks';
 import { Post } from '@nearlyapp/common';
 import { useMutation } from '@tanstack/react-query';
@@ -66,7 +65,7 @@ export const useCreateLike = () =>
       );
 
       queryClient.setQueriesData<{ posts: Post[] }>(
-        { queryKey: POSTS_QUERY_KEYS.recommendedPosts() },
+        { queryKey: ['posts', 'recommended'] },
         (oldData) =>
           oldData
             ? {

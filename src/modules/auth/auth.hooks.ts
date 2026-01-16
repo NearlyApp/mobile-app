@@ -46,10 +46,7 @@ const successMutationHandler = (user: PrivateUser) => {
   // Update current user data
   queryClient.setQueryData(USERS_QUERY_KEYS.currentUser(), user);
 
-  // Update posts recommended data
-  queryClient.invalidateQueries({
-    queryKey: POSTS_QUERY_KEYS.recommendedPosts(),
-  });
+  queryClient.removeQueries({ queryKey: POSTS_QUERY_KEYS.recommendedPosts() });
 };
 
 export { MUTATION_KEYS as AUTH_MUTATION_KEYS };
